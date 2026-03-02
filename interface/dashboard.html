@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIPES — Dashboard</title>
+  <link rel="stylesheet" href="../assets/global.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">PIPES <span>Policy Evaluation</span></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"  class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluate.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluate</a>
+      <a href="results.html"   class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"   class="nav-item"><span class="nav-icon">▪</span> History</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-name">Michael Franklyn</div>
+      <div class="sidebar-user-role">Admin</div>
+      <a href="login.html" class="logout-link">Log out</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <div class="welcome-banner">
+      <div>
+        <h2>Welcome back, Michael</h2>
+        <p>Here's an overview of the system activity.</p>
+      </div>
+      <a href="evaluate.html" class="btn btn-secondary" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.2);">+ Run Evaluation</a>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Total Policies</div>
+        <div class="stat-value">4</div>
+        <div class="stat-sub">Active in system</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Evaluations Run</div>
+        <div class="stat-value">12</div>
+        <div class="stat-sub">All time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Average Score</div>
+        <div class="stat-value">64.3</div>
+        <div class="stat-sub">Out of 100</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">System Users</div>
+        <div class="stat-value">6</div>
+        <div class="stat-sub">3 roles</div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMNS -->
+    <div class="two-col">
+
+      <!-- Recent Policies -->
+      <div class="card">
+        <div class="flex items-center justify-between" style="margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:600;">Recent Policies</div>
+          <a href="policies.html" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div class="recent-list">
+          <a href="policies.html" class="recent-item">
+            <div>
+              <div class="recent-item-name">Kenya National ICT Policy 2020</div>
+              <div class="recent-item-cat">Digital Infrastructure · 2020</div>
+            </div>
+            <span class="badge badge-active">Active</span>
+          </a>
+          <a href="policies.html" class="recent-item">
+            <div>
+              <div class="recent-item-name">Digital Economy Blueprint 2030</div>
+              <div class="recent-item-cat">ICT Innovation · 2022</div>
+            </div>
+            <span class="badge badge-active">Active</span>
+          </a>
+          <a href="policies.html" class="recent-item">
+            <div>
+              <div class="recent-item-name">National Broadband Strategy</div>
+              <div class="recent-item-cat">Internet Access · 2023</div>
+            </div>
+            <span class="badge badge-review">Review</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:16px;">Average Scores by Policy</div>
+        <div class="chart-wrap">
+          <canvas id="dash-chart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const ctx = document.getElementById('dash-chart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['ICT Policy\n2020', 'Digital Economy\n2030', 'Broadband\nStrategy', 'Digital\nLiteracy'],
+      datasets: [{
+        data: [72, 68, 55, 61],
+        backgroundColor: ['#111','#111','#111','#111'],
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#888' } },
+        y: { min: 0, max: 100, grid: { color: '#f0f0f0' }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#888' } }
+      }
+    }
+  });
+</script>
+</body>
+</html>

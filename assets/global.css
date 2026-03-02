@@ -30,7 +30,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── LAYOUT ── */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -43,7 +42,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── SIDEBAR ── */
 .sidebar {
   position: fixed;
   top: 0;
@@ -147,7 +145,6 @@ body {
   color: var(--danger);
 }
 
-/* ── PAGE HEADER ── */
 .page-header {
   display: flex;
   align-items: flex-start;
@@ -167,7 +164,6 @@ body {
   margin-top: 4px;
 }
 
-/* ── CARDS ── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -175,7 +171,6 @@ body {
   padding: 24px;
 }
 
-/* ── STATS ROW ── */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -212,7 +207,6 @@ body {
   margin-top: 4px;
 }
 
-/* ── BUTTONS ── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -261,7 +255,6 @@ body {
   font-size: 12px;
 }
 
-/* ── TABLES ── */
 .table-wrap {
   overflow-x: auto;
 }
@@ -293,7 +286,6 @@ tbody td {
 tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover td { background: #fafafa; }
 
-/* ── BADGES ── */
 .badge {
   display: inline-block;
   padding: 2px 8px;
@@ -314,7 +306,6 @@ tbody tr:hover td { background: #fafafa; }
 .badge-analyst    { background: #e8eaf6; color: #3949ab; }
 .badge-admin      { background: #111111; color: #ffffff; }
 
-/* ── FORMS ── */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -362,7 +353,6 @@ tbody tr:hover td { background: #fafafa; }
 .error-msg  { font-size: 13px; color: var(--danger); min-height: 18px; margin-bottom: 10px; }
 .success-msg { font-size: 13px; color: var(--success); min-height: 18px; margin-bottom: 10px; }
 
-/* ── SECTION HEADER ── */
 .section-header {
   display: flex;
   align-items: center;
@@ -376,7 +366,6 @@ tbody tr:hover td { background: #fafafa; }
   color: var(--text);
 }
 
-/* ── SCORE BAR ── */
 .score-bar-wrap {
   width: 80px;
   height: 4px;
@@ -396,11 +385,9 @@ tbody tr:hover td { background: #fafafa; }
 .score-moderate { background: #b45309; }
 .score-low      { background: #cc0000; }
 
-/* ── TWO COL GRID ── */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
-/* ── EMPTY STATE ── */
 .empty-state {
   text-align: center;
   padding: 48px 24px;

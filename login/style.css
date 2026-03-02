@@ -113,3 +113,20 @@ body {
   .btn-login:hover {
     opacity: 0.85;
   }
+
+  .login-link {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  
+  .login-link a {
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }

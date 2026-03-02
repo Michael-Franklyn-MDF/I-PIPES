@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PIPES — Policies</title>
+  <title>I-PIPES — Policies</title>
   <link rel="stylesheet" href="../assets/global.css">
 </head>
 <body>
 <div class="app-layout">
   <aside class="sidebar">
-    <div class="sidebar-logo">PIPES <span>Policy Evaluation</span></div>
+    <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
       <a href="dashboard.html" class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
       <a href="policies.html"  class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
@@ -29,7 +29,7 @@
         <div class="page-title">Policies</div>
         <div class="page-subtitle">Manage ICT policies and their proxy indicators</div>
       </div>
-      <button class="btn btn-primary" onclick="openModal()">+ Add Policy</button>
+      <button class="btn btn-primary">+ Add Policy</button>
     </div>
     <div class="card">
       <div class="table-wrap">
@@ -51,191 +51,6 @@
     </div>
   </main>
 </div>
-<!-- ADD POLICY MODAL -->
-<div class="modal-overlay" id="policy-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">Add New Policy</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="form-grid">
-      <div class="form-group full">
-        <label>Policy Name</label>
-        <input type="text" id="pol-name" placeholder="e.g. National Broadband Policy 2024">
-      </div>
-      <div class="form-group">
-        <label>Category</label>
-        <select id="pol-category">
-          <option>Digital Infrastructure</option>
-          <option>Digital Literacy</option>
-          <option>Internet Access</option>
-          <option>E-Government</option>
-          <option>ICT Innovation</option>
-          <option>Cybersecurity</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Status</label>
-        <select id="pol-status">
-          <option value="active">Active</option>
-          <option value="review">Under Review</option>
-          <option value="inactive">Inactive</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Year Enacted</label>
-        <input type="number" id="pol-year" placeholder="2024">
-      </div>
-      <div class="form-group">
-        <label>Implementing Agency</label>
-        <input type="text" id="pol-agency" placeholder="e.g. CA Kenya">
-      </div>
-      <div class="form-group full">
-        <label>Description</label>
-        <textarea id="pol-desc" rows="2" placeholder="Brief description of the policy..."></textarea>
-      </div>
-    </div>
-    <hr class="divider">
-    <div style="font-size:13px;font-weight:600;margin-bottom:12px;">Proxy Indicators <span style="font-weight:400;color:var(--muted);font-size:12px;">(weights must sum to 100%)</span></div>
-    <div id="indicators-container"></div>
-    <button class="add-ind-btn" onclick="addIndicatorRow()">+ Add Indicator</button>
-    <div class="weight-total">Total weight: <span id="weight-total" style="color:var(--text);">0%</span></div>
-    <div class="error-msg" id="modal-error" style="margin-top:10px;"></div>
-
-    <div class="flex gap-8" style="margin-top:20px;justify-content:flex-end;">
-      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="savePolicy()">Save Policy</button>
-    </div>
-  </div>
 </div>
-
-<script>
-  const INDICATORS = ['Internet Penetration Rate','ICT Employment Rate','Digital Access Index','Infrastructure Availability','Digital Literacy Rate','E-Services Adoption'];
-
-  let policies = [
-    { id:1, name:'Kenya National ICT Policy 2020', category:'Digital Infrastructure', year:2020, agency:'MoICT Kenya', status:'active', desc:'Aims to expand digital infrastructure and promote ICT adoption across Kenya.', indicators:[{name:'Internet Penetration Rate',weight:25},{name:'Infrastructure Availability',weight:30},{name:'Digital Literacy Rate',weight:20},{name:'ICT Employment Rate',weight:15},{name:'E-Services Adoption',weight:10}] },
-    { id:2, name:'Digital Economy Blueprint 2030', category:'ICT Innovation', year:2022, agency:'ICTA Kenya', status:'active', desc:'Strategy to position Kenya as a digital economy leader in Africa by 2030.', indicators:[{name:'Digital Access Index',weight:20},{name:'E-Services Adoption',weight:30},{name:'ICT Employment Rate',weight:20},{name:'Digital Literacy Rate',weight:15},{name:'Internet Penetration Rate',weight:15}] },
-    { id:3, name:'National Broadband Strategy', category:'Internet Access', year:2023, agency:'CA Kenya', status:'review', desc:'Policy to ensure affordable broadband access for all Kenyans.', indicators:[{name:'Internet Penetration Rate',weight:40},{name:'Infrastructure Availability',weight:40},{name:'Digital Access Index',weight:20}] },
-    { id:4, name:'Digital Literacy & Skills Programme', category:'Digital Literacy', year:2021, agency:'MoE Kenya', status:'active', desc:'Equip Kenyan citizens with digital skills needed for the modern economy.', indicators:[{name:'Digital Literacy Rate',weight:50},{name:'ICT Employment Rate',weight:25},{name:'E-Services Adoption',weight:25}] },
-  ];
-  let nextId = 5;
-
-  function renderPolicies() {
-    const tbody = document.getElementById('policies-tbody');
-    tbody.innerHTML = policies.map(p => `
-      <tr>
-        <td>
-          <div style="font-weight:500;font-size:14px;">${p.name}</div>
-          <div class="text-sm text-muted mt-4">${p.desc}</div>
-          <div class="indicator-tags mt-4">${p.indicators.map(i=>`<span class="ind-tag">${i.name} ${i.weight}%</span>`).join('')}</div>
-        </td>
-        <td class="text-sm">${p.category}</td>
-        <td class="mono text-sm">${p.year||'—'}</td>
-        <td class="text-sm">${p.agency||'—'}</td>
-        <td class="mono text-sm">${p.indicators.length}</td>
-        <td><span class="badge badge-${p.status}">${p.status}</span></td>
-        <td>
-          <div class="flex gap-8">
-            <a href="evaluate.html" class="btn btn-secondary btn-sm">Evaluate</a>
-            <button class="btn btn-secondary btn-sm" onclick="editPolicy(${p.id})">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="deletePolicy(${p.id})">Delete</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  function openModal(id = null) {
-    document.getElementById('modal-error').textContent = '';
-    document.getElementById('indicators-container').innerHTML = '';
-    if (id) {
-      const p = policies.find(x => x.id === id);
-      document.getElementById('modal-title').textContent = 'Edit Policy';
-      document.getElementById('pol-name').value = p.name;
-      document.getElementById('pol-category').value = p.category;
-      document.getElementById('pol-status').value = p.status;
-      document.getElementById('pol-year').value = p.year || '';
-      document.getElementById('pol-agency').value = p.agency || '';
-      document.getElementById('pol-desc').value = p.desc || '';
-      p.indicators.forEach(i => addIndicatorRow(i.name, i.weight));
-    } else {
-      document.getElementById('modal-title').textContent = 'Add New Policy';
-      ['pol-name','pol-year','pol-agency','pol-desc'].forEach(id => document.getElementById(id).value = '');
-      addIndicatorRow(); addIndicatorRow(); addIndicatorRow();
-    }
-    document.getElementById('policy-modal').classList.add('open');
-    updateWeightTotal();
-  }
-
-  function editPolicy(id) { openModal(id); document.getElementById('policy-modal').dataset.editId = id; }
-  function closeModal() { document.getElementById('policy-modal').classList.remove('open'); delete document.getElementById('policy-modal').dataset.editId; }
-
-  function addIndicatorRow(name = '', weight = '') {
-    const container = document.getElementById('indicators-container');
-    const row = document.createElement('div');
-    row.className = 'weight-row';
-    row.innerHTML = `
-      <select class="ind-name-select" onchange="updateWeightTotal()" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-family:'DM Sans',sans-serif;background:#fafafa;">
-        ${INDICATORS.map(i=>`<option ${i===name?'selected':''}>${i}</option>`).join('')}
-      </select>
-      <input type="number" class="ind-weight-input" min="0" max="100" value="${weight}" placeholder="%" oninput="updateWeightTotal()" style="width:70px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;text-align:center;">
-      <button onclick="this.parentElement.remove();updateWeightTotal();" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px;">✕</button>
-    `;
-    container.appendChild(row);
-  }
-
-  function updateWeightTotal() {
-    const inputs = document.querySelectorAll('.ind-weight-input');
-    let total = 0;
-    inputs.forEach(i => total += parseInt(i.value)||0);
-    const el = document.getElementById('weight-total');
-    el.textContent = total + '%';
-    el.style.color = total === 100 ? 'var(--success)' : total > 100 ? 'var(--danger)' : 'var(--text)';
-  }
-
-  function savePolicy() {
-    const name = document.getElementById('pol-name').value.trim();
-    const err  = document.getElementById('modal-error');
-    if (!name) { err.textContent = 'Policy name is required.'; return; }
-
-    const selects = document.querySelectorAll('.ind-name-select');
-    const weights = document.querySelectorAll('.ind-weight-input');
-    let total = 0;
-    const indicators = [];
-    selects.forEach((s, i) => {
-      const w = parseInt(weights[i].value)||0;
-      if (w > 0) { indicators.push({ name: s.value, weight: w }); total += w; }
-    });
-    if (total !== 100) { err.textContent = 'Indicator weights must sum to exactly 100%.'; return; }
-    if (!indicators.length) { err.textContent = 'Add at least one indicator.'; return; }
-
-    const data = {
-      name, indicators,
-      category: document.getElementById('pol-category').value,
-      status:   document.getElementById('pol-status').value,
-      year:     parseInt(document.getElementById('pol-year').value)||null,
-      agency:   document.getElementById('pol-agency').value,
-      desc:     document.getElementById('pol-desc').value,
-    };
-
-    const editId = parseInt(document.getElementById('policy-modal').dataset.editId);
-    if (editId) {
-      const idx = policies.findIndex(p => p.id === editId);
-      policies[idx] = { ...policies[idx], ...data };
-    } else {
-      policies.push({ id: nextId++, ...data });
-    }
-    closeModal();
-    renderPolicies();
-  }
-
-  function deletePolicy(id) {
-    if (!confirm('Delete this policy? This cannot be undone.')) return;
-    policies = policies.filter(p => p.id !== id);
-    renderPolicies();
-  }
-
-  renderPolicies();
-</script>
 </body>
 </html>

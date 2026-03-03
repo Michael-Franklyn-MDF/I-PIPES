@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I-PIPES — User Details</title>
+  <link rel="stylesheet" href="../assets/global.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.html"        class="nav-item active"><span class="nav-icon">▪</span> Users</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-name">Michael Franklyn</div>
+      <div class="sidebar-user-role">Admin</div>
+      <a href="../login/index.html" class="logout-link">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">User details</div>
+        <div class="page-subtitle">View and manage an individual user account.</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-secondary">Reset password</button>
+        <button class="btn btn-danger">Disable user</button>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Profile</div>
+        </div>
+        <div style="font-size:14px; line-height:1.7;">
+          <div><strong>Name:</strong> Policy Analyst One</div>
+          <div><strong>Email:</strong> analyst1@example.org</div>
+          <div><strong>Role:</strong> <span class="badge badge-analyst">Analyst</span></div>
+          <div><strong>Status:</strong> <span class="badge badge-active">Active</span></div>
+          <div><strong>Last login:</strong> Yesterday, 16:04</div>
+          <div><strong>Created:</strong> 10 Jan 2026, 09:00</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Summary</div>
+        </div>
+        <div class="three-col">
+          <div>
+            <div class="stat-label">Evaluations run</div>
+            <div class="stat-value">5</div>
+            <div class="stat-sub">All time</div>
+          </div>
+          <div>
+            <div class="stat-label">Avg. score</div>
+            <div class="stat-value">68.4</div>
+            <div class="stat-sub">Across runs</div>
+          </div>
+          <div>
+            <div class="stat-label">Assigned policies</div>
+            <div class="stat-value">3</div>
+            <div class="stat-sub">In portfolio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="section-header">
+        <div class="section-title">Recent evaluations</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+          <tr>
+            <th>Run ID</th>
+            <th>Policy</th>
+            <th>Period</th>
+            <th>Run type</th>
+            <th>Score</th>
+            <th>Band</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>EV-2026-011</td>
+            <td>Broadband Expansion Strategy</td>
+            <td>Q4 2024</td>
+            <td>Quick</td>
+            <td>67.9</td>
+            <td><span class="badge badge-moderate">Moderate</span></td>
+          </tr>
+          <tr>
+            <td>EV-2026-009</td>
+            <td>Digital Inclusion Roadmap</td>
+            <td>2023 (Annual)</td>
+            <td>Full</td>
+            <td>74.2</td>
+            <td><span class="badge badge-high">High</span></td>
+          </tr>
+          <tr>
+            <td>EV-2025-022</td>
+            <td>National ICT Policy 2012</td>
+            <td>2023 (Annual)</td>
+            <td>Full</td>
+            <td>65.1</td>
+            <td><span class="badge badge-moderate">Moderate</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
+

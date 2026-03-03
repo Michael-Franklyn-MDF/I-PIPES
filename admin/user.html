@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I-PIPES — Users</title>
+  <link rel="stylesheet" href="../assets/global.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.html"        class="nav-item active"><span class="nav-icon">▪</span> Users</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-name">Michael Franklyn</div>
+      <div class="sidebar-user-role">Admin</div>
+      <a href="../login/index.html" class="logout-link">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Users</div>
+        <div class="page-subtitle">Manage admin, policy analyst, and researcher accounts.</div>
+      </div>
+      <button class="btn btn-primary">+ Add User</button>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last login</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Michael Franklyn</td>
+            <td>michael@example.org</td>
+            <td><span class="badge badge-admin">Admin</span></td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>Today, 09:21</td>
+            <td>
+              <a href="user-details.html" class="btn btn-secondary btn-sm">View</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Policy Analyst One</td>
+            <td>analyst1@example.org</td>
+            <td><span class="badge badge-analyst">Analyst</span></td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>Yesterday, 16:04</td>
+            <td>
+              <a href="user-details.html" class="btn btn-secondary btn-sm">View</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Researcher One</td>
+            <td>researcher1@example.org</td>
+            <td><span class="badge badge-researcher">Researcher</span></td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>12 Feb 2026, 11:37</td>
+            <td>
+              <a href="user-details.html" class="btn btn-secondary btn-sm">View</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Inactive Analyst</td>
+            <td>analyst2@example.org</td>
+            <td><span class="badge badge-analyst">Analyst</span></td>
+            <td><span class="badge badge-inactive">Disabled</span></td>
+            <td>03 Jan 2026, 08:15</td>
+            <td>
+              <a href="user-details.html" class="btn btn-secondary btn-sm">View</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
+

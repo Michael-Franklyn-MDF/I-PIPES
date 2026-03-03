@@ -11,11 +11,11 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"  class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluate.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluate</a>
-      <a href="results.html"   class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.html"   class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="dashboard.html"   class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Michael Franklyn</div>
@@ -30,6 +30,7 @@
         <p>Here's an overview of the system activity.</p>
       </div>
     </div>
+
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-label">Total Policies</div>
@@ -52,5 +53,66 @@
         <div class="stat-sub">3 roles</div>
       </div>
     </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Recent evaluations</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Run ID</th>
+                <th>Policy</th>
+                <th>Date</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EV-2026-012</td>
+                <td>National ICT Policy 2012</td>
+                <td>12 Feb 2026</td>
+                <td>71.4</td>
+              </tr>
+              <tr>
+                <td>EV-2026-011</td>
+                <td>Broadband Expansion Strategy</td>
+                <td>05 Feb 2026</td>
+                <td>67.9</td>
+              </tr>
+              <tr>
+                <td>EV-2026-010</td>
+                <td>Digital Inclusion Roadmap</td>
+                <td>28 Jan 2026</td>
+                <td>74.2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Quick actions</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+          <a href="evaluation.html" class="btn btn-primary">Run new evaluation</a>
+          <a href="policies.html" class="btn btn-secondary">Manage policies</a>
+          <a href="results.html" class="btn btn-secondary">View detailed results</a>
+        </div>
+        <div class="section-header" style="margin-top:8px;">
+          <div class="section-title">System notes</div>
+        </div>
+        <ul style="margin-left:16px; font-size:13px; color:var(--muted); line-height:1.6;">
+          <li>Latest evaluation completed with a moderate overall score.</li>
+          <li>Digital skills dimension remains the weakest area.</li>
+          <li>Two new policies were created in the last month.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
 </body>
 </html>

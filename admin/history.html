@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I-PIPES — History</title>
+  <link rel="stylesheet" href="../assets/global.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"     class="nav-item active"><span class="nav-icon">▪</span> History</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-name">Michael Franklyn</div>
+      <div class="sidebar-user-role">Admin</div>
+      <a href="../login/index.html" class="logout-link">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">History</div>
+        <div class="page-subtitle">Audit trail of evaluations and key policy changes.</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Evaluation history</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Run ID</th>
+                <th>Policy</th>
+                <th>Triggered by</th>
+                <th>Date</th>
+                <th>Run type</th>
+                <th>Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EV-2026-012</td>
+                <td>National ICT Policy 2012</td>
+                <td>Admin</td>
+                <td>12 Feb 2026, 10:14</td>
+                <td>Full</td>
+                <td><span class="badge badge-moderate">Completed</span></td>
+              </tr>
+              <tr>
+                <td>EV-2026-011</td>
+                <td>Broadband Expansion Strategy</td>
+                <td>Analyst</td>
+                <td>05 Feb 2026, 15:02</td>
+                <td>Quick</td>
+                <td><span class="badge badge-moderate">Completed</span></td>
+              </tr>
+              <tr>
+                <td>EV-2026-010</td>
+                <td>Digital Inclusion Roadmap</td>
+                <td>Researcher</td>
+                <td>28 Jan 2026, 09:47</td>
+                <td>Full</td>
+                <td><span class="badge badge-high">Reviewed</span></td>
+              </tr>
+              <tr>
+                <td>EV-2026-009</td>
+                <td>Cybersecurity Framework</td>
+                <td>Admin</td>
+                <td>16 Jan 2026, 11:23</td>
+                <td>Sensitivity</td>
+                <td><span class="badge badge-low">Action needed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Policy change log</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Policy</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Indicators updated</td>
+                <td>National ICT Policy 2012</td>
+                <td>Admin</td>
+                <td>10 Feb 2026</td>
+                <td>Added new broadband penetration proxy indicators.</td>
+              </tr>
+              <tr>
+                <td>Policy created</td>
+                <td>Cybersecurity Framework</td>
+                <td>Admin</td>
+                <td>02 Feb 2026</td>
+                <td>Initial version created from template.</td>
+              </tr>
+              <tr>
+                <td>Metadata edited</td>
+                <td>Digital Inclusion Roadmap</td>
+                <td>Analyst</td>
+                <td>25 Jan 2026</td>
+                <td>Updated target population coverage.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

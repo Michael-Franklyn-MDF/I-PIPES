@@ -178,6 +178,28 @@ body {
   margin-bottom: 24px;
 }
 
+.welcome-banner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.welcome-banner h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.welcome-banner p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--border);

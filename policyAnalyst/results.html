@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I-PIPES — Analyst Results</title>
+  <link rel="stylesheet" href="../assets/global.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"     class="nav-item active"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-name">Policy Analyst</div>
+      <div class="sidebar-user-role">Analyst</div>
+      <a href="../login/index.html" class="logout-link">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Evaluation Results</div>
+        <div class="page-subtitle">Explore outcomes and compare your recent evaluation runs.</div>
+      </div>
+      <button class="btn btn-secondary">Export summary</button>
+    </div>
+
+    <div class="two-col" style="margin-bottom: 20px;">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Latest evaluation (yours)</div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <div style="font-size:14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Policy</div>
+          <div style="font-size:17px; font-weight:600; margin-top:4px;">National ICT Policy 2012</div>
+          <div style="font-size:13px; color: var(--muted); margin-top:2px;">Run on 12 Feb 2026 • By you • Using ITU &amp; NBS datasets</div>
+        </div>
+
+        <div class="three-col">
+          <div>
+            <div class="stat-label">Overall score</div>
+            <div class="stat-value">71.4</div>
+            <div class="stat-sub">out of 100</div>
+          </div>
+          <div>
+            <div class="stat-label">Confidence level</div>
+            <div class="stat-value">High</div>
+            <div class="stat-sub">Model certainty</div>
+          </div>
+          <div>
+            <div class="stat-label">Run type</div>
+            <div class="stat-value">Full</div>
+            <div class="stat-sub">4 dimensions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Dimension breakdown</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Score</th>
+              <th>Band</th>
+              <th>Score bar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Access &amp; Infrastructure</td>
+              <td>78.2</td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>
+                <span class="score-bar-wrap">
+                  <span class="score-bar-fill score-high" style="width:78%;"></span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Affordability</td>
+              <td>63.5</td>
+              <td><span class="badge badge-moderate">Moderate</span></td>
+              <td>
+                <span class="score-bar-wrap">
+                  <span class="score-bar-fill score-moderate" style="width:64%;"></span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Digital skills</td>
+              <td>58.7</td>
+              <td><span class="badge badge-low">Low</span></td>
+              <td>
+                <span class="score-bar-wrap">
+                  <span class="score-bar-fill score-low" style="width:59%;"></span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Policy &amp; regulation</td>
+              <td>85.1</td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>
+                <span class="score-bar-wrap">
+                  <span class="score-bar-fill score-high" style="width:85%;"></span>
+                </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-header">
+        <div class="section-title">Your evaluation runs</div>
+        <button class="btn btn-secondary btn-sm">Filter</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+          <tr>
+            <th>Run ID</th>
+            <th>Policy</th>
+            <th>Period</th>
+            <th>Run type</th>
+            <th>Score</th>
+            <th>Band</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>EV-2026-012</td>
+            <td>National ICT Policy 2012</td>
+            <td>2024 (Annual)</td>
+            <td>Full</td>
+            <td>71.4</td>
+            <td><span class="badge badge-moderate">Moderate</span></td>
+          </tr>
+          <tr>
+            <td>EV-2026-011</td>
+            <td>Broadband Expansion Strategy</td>
+            <td>Q4 2024</td>
+            <td>Quick</td>
+            <td>67.9</td>
+            <td><span class="badge badge-moderate">Moderate</span></td>
+          </tr>
+          <tr>
+            <td>EV-2026-009</td>
+            <td>Digital Inclusion Roadmap</td>
+            <td>2023 (Annual)</td>
+            <td>Full</td>
+            <td>74.2</td>
+            <td><span class="badge badge-high">High</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
+

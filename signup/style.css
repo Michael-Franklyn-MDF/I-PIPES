@@ -91,6 +91,16 @@ body {
   background: #ffffff;
 }
 
+.form-group input.invalid {
+  border-color: var(--danger);
+  background: #fff5f5;
+}
+
+.form-group input.valid {
+  border-color: var(--success);
+  background: #ffffff;
+}
+
 .error-msg {
   font-size: 13px;
   color: var(--danger);

@@ -89,6 +89,16 @@ body {
     background: #ffffff;
 }
 
+.form-group input.invalid {
+    border-color: var(--danger);
+    background: #fff5f5;
+}
+
+.form-group input.valid {
+    background: #ffffff;
+}
+
+.error-message,
 .error-msg {
     font-size: 13px;
     color: var(--danger);

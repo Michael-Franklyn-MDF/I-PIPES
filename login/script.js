@@ -1,3 +1,10 @@
+// Show error from URL if redirected back after failed login
+const params = new URLSearchParams(window.location.search);
+const urlError = params.get('error');
+if (urlError) {
+    showError(urlError);
+}
+
 // --- DOM ---
 const form = document.getElementById('login-form');
 const usernameInput = document.getElementById('username');

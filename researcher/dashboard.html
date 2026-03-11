@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I-PIPES — Researcher Dashboard</title>
+  <link rel="stylesheet" href="../assets/global.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"  class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="results.html"   class="nav-item"><span class="nav-icon">▪</span> Results</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user-name">Researcher One</div>
+      <div class="sidebar-user-role"><span class="badge badge-researcher">Researcher</span></div>
+      <a href="../login/index.html" class="logout-link">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="welcome-banner">
+      <div>
+        <h2>Welcome back, Researcher</h2>
+        <p>Browse ICT policies and explore evaluation results.</p>
+      </div>
+      <div>
+        <span class="badge badge-researcher">Read-only</span>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Policies available</div>
+        <div class="stat-value">4</div>
+        <div class="stat-sub">Active in system</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Evaluations viewable</div>
+        <div class="stat-value">12</div>
+        <div class="stat-sub">All time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">System avg. score</div>
+        <div class="stat-value">64.3</div>
+        <div class="stat-sub">Out of 100</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Last evaluation</div>
+        <div class="stat-value">71.4</div>
+        <div class="stat-sub">12 Feb 2026</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Recent evaluations</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Run ID</th>
+                <th>Policy</th>
+                <th>Date</th>
+                <th>Score</th>
+                <th>Band</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EV-2026-012</td>
+                <td>National ICT Policy 2012</td>
+                <td>12 Feb 2026</td>
+                <td>71.4</td>
+                <td><span class="badge badge-moderate">Moderate</span></td>
+              </tr>
+              <tr>
+                <td>EV-2026-011</td>
+                <td>Broadband Expansion Strategy</td>
+                <td>05 Feb 2026</td>
+                <td>67.9</td>
+                <td><span class="badge badge-moderate">Moderate</span></td>
+              </tr>
+              <tr>
+                <td>EV-2026-010</td>
+                <td>Digital Inclusion Roadmap</td>
+                <td>28 Jan 2026</td>
+                <td>74.2</td>
+                <td><span class="badge badge-high">High</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Quick access</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+          <a href="policies.html" class="btn btn-primary">Browse all policies</a>
+          <a href="results.html" class="btn btn-secondary">View all results</a>
+          <a href="results.html" class="btn btn-secondary">Export results as CSV</a>
+        </div>
+        <div class="section-header" style="margin-top:8px;">
+          <div class="section-title">System notes</div>
+        </div>
+        <ul style="margin-left:16px; font-size:13px; color:var(--muted); line-height:1.6;">
+          <li>Researcher access is read-only across all pages.</li>
+          <li>Latest run shows strong Access &amp; Infrastructure performance.</li>
+          <li>Use Export CSV in Results to download the full runs table.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

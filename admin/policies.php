@@ -42,7 +42,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <table>
           <thead>
             <tr>
-              <th>Policy Name</th><th>Category</th><th>Year</th><th>Agency</th><th>Indicators</th><th>Status</th><th>Actions</th>
+              <th>Policy Name</th><th>Category</th><th>Year</th><th>Agency</th><th>Target Area</th><th>Status</th><th>Actions</th>
             </tr>
           </thead>
           <tbody id="policies-tbody"></tbody>
@@ -62,11 +62,15 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     <form id="form-add-policy">
       <div class="form-grid">
         <div class="form-group full">
-          <label for="policy_name">Policy Name</label>
+          <label for="policy_name">Policy Name <span style="color:var(--danger)">*</span></label>
           <input type="text" id="policy_name" name="policy_name" placeholder="e.g. National Broadband Policy 2024" required>
         </div>
+        <div class="form-group full">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="2" placeholder="Brief description of the policy"></textarea>
+        </div>
         <div class="form-group">
-          <label for="category">Category</label>
+          <label for="category">Category <span style="color:var(--danger)">*</span></label>
           <select id="category" name="category" required>
             <option value="">Select category</option>
             <option value="National">National</option>
@@ -78,19 +82,20 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           </select>
         </div>
         <div class="form-group">
-          <label for="year">Year</label>
+          <label for="year">Year <span style="color:var(--danger)">*</span></label>
           <input type="number" id="year" name="year" placeholder="e.g. 2024" min="1990" max="2099" required>
         </div>
         <div class="form-group">
-          <label for="agency">Agency</label>
+          <label for="agency">Agency <span style="color:var(--danger)">*</span></label>
           <input type="text" id="agency" name="agency" placeholder="e.g. ICT Ministry" required>
         </div>
         <div class="form-group">
-          <label for="indicators">No. of Indicators</label>
-          <input type="number" id="indicators" name="indicators" placeholder="e.g. 5" min="0" value="0">
+          <label for="targetArea">Target Area</label>
+          <input type="text" id="targetArea" name="targetArea" placeholder="e.g. Rural broadband">
         </div>
         <div class="form-group full">
           <label for="status">Status</label>
+          <!-- FIX: values match enum('active','review','inactive') in the database -->
           <select id="status" name="status">
             <option value="active">Active</option>
             <option value="review">Under review</option>

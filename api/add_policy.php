@@ -8,37 +8,38 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Get POST data (either from FormData or JSON)
 $data = $_POST;
 if (empty($data)) {
-    $data = json_decode(file_get_contents('php://input'), true);
+    $data = json_decode(file_get_contents('php://input'), true) ?? [];
 }
 
-$name = trim($data['policy_name'] ?? '');
-$category = trim($data['category'] ?? '');
-$year = trim($data['year'] ?? '');
-$agency = trim($data['agency'] ?? '');
-$indicators = (int)($data['indicators'] ?? 0);
-$status = trim($data['status'] ?? 'active');
+// FIX: match actual column names in the Policies table
+$policyName  = trim($data['policy_name']  ?? '');
+$description = trim($data['description']  ?? '');
+$category    = trim($data['category']     ?? '');
+$year        = trim($data['year']         ?? '');
+$agency      = trim($data['agency']       ?? '');
+$targetArea  = trim($data['targetArea']   ?? '');
+$status      = trim($data['status']       ?? 'active');
 
-$statusMap = [
-    'active' => 'Active',
-    'review' => 'Under review',
-    'inactive' => 'Inactive'
-];
-$statusLabel = $statusMap[$status] ?? 'Active';
+// FIX: status values must be lowercase to match enum('active','review','inactive')
+$allowedStatuses = ['active', 'review', 'inactive'];
+if (!in_array($status, $allowedStatuses)) {
+    $status = 'active';
+}
 
-if (empty($name) || empty($category) || empty($year) || empty($agency)) {
+if (empty($policyName) || empty($category) || empty($year) || empty($agency)) {
     echo json_encode(['success' => false, 'error' => 'Missing required fields']);
     exit;
 }
 
 try {
-    $userID = $_SESSION['userID'] ?? null;
-    
-    $stmt = $pdo->prepare("INSERT INTO Policies (name, category, year, agency, indicators, status, createdBy) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$name, $category, $year, $agency, $indicators, $statusLabel, $userID]);
-    
+    $stmt = $pdo->prepare(
+        "INSERT INTO Policies (policyName, description, category, year, agency, targetArea, status)
+         VALUES (?, ?, ?, ?, ?, ?, ?)"
+    );
+    $stmt->execute([$policyName, $description, $category, $year, $agency, $targetArea, $status]);
+
     echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);

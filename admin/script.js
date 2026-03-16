@@ -8,8 +8,8 @@
       .replaceAll("'", '&#39;');
 
   let policies = [];
-  let users = [];
-  let evals = [];
+  let users    = [];
+  let evals    = [];
 
   // ─── Modal helpers ────────────────────────────────────────────────────────────
   function openModal(id) {
@@ -38,9 +38,9 @@
   // ─── Helpers ──────────────────────────────────────────────────────────────────
   function bandFor(score) {
     const s = parseFloat(score);
-    if (s >= 70) return { label: 'High', cls: 'badge-high' };
+    if (s >= 70) return { label: 'High',     cls: 'badge-high'     };
     if (s >= 50) return { label: 'Moderate', cls: 'badge-moderate' };
-    return { label: 'Low', cls: 'badge-low' };
+    return               { label: 'Low',      cls: 'badge-low'      };
   }
 
   // ─── Page detection ───────────────────────────────────────────────────────────
@@ -52,7 +52,7 @@
 
   async function fetchPolicies() {
     try {
-      const res = await fetch('../api/get_policies.php');
+      const res  = await fetch('../api/get_policies.php');
       const json = await res.json();
       if (json.success) policies = json.data;
     } catch (e) { console.error('fetchPolicies:', e); }
@@ -64,21 +64,18 @@
       policiesTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px;">No policies found.</td></tr>`;
       return;
     }
-    const statusMap = {
-      'Active': 'badge-active',
-      'Under review': 'badge-review',
-      'Inactive': 'badge-inactive',
-    };
     policiesTbody.innerHTML = policies.map((p) => {
-      const sCls = statusMap[p.status] || 'badge-active';
+      // FIX: use statusLabel and statusCls provided by get_policies.php
+      const sCls   = p.statusCls   || 'badge-active';
+      const sLabel = p.statusLabel || p.status || 'Active';
       return `
         <tr>
           <td>${escapeHtml(p.name)}</td>
           <td>${escapeHtml(p.category)}</td>
           <td>${escapeHtml(p.year)}</td>
           <td>${escapeHtml(p.agency)}</td>
-          <td>${escapeHtml(p.indicators || '0')}</td>
-          <td><span class="badge ${sCls}">${escapeHtml(p.status || 'Active')}</span></td>
+          <td>${escapeHtml(p.targetArea || '—')}</td>
+          <td><span class="badge ${sCls}">${escapeHtml(sLabel)}</span></td>
           <td>
             <a href="policy-details.php?id=${encodeURIComponent(p.policyID)}&name=${encodeURIComponent(p.name)}"
                class="btn btn-secondary btn-sm">View</a>
@@ -103,7 +100,7 @@
     const btn = e.target.querySelector('button[type="submit"]');
     btn.disabled = true;
     try {
-      const res = await fetch('../api/add_policy.php', { method: 'POST', body: new FormData(e.target) });
+      const res  = await fetch('../api/add_policy.php', { method: 'POST', body: new FormData(e.target) });
       const data = await res.json();
       if (data.success) {
         await fetchPolicies();
@@ -122,7 +119,7 @@
 
   async function fetchUsers() {
     try {
-      const res = await fetch('../api/get_users.php');
+      const res  = await fetch('../api/get_users.php');
       const json = await res.json();
       if (json.success) users = json.data;
     } catch (e) { console.error('fetchUsers:', e); }
@@ -176,7 +173,7 @@
         f.append('action', 'toggle_status');
         f.append('userID', btn.dataset.id);
         f.append('status', btn.dataset.status);
-        const res = await fetch('../api/update_user.php', { method: 'POST', body: f });
+        const res  = await fetch('../api/update_user.php', { method: 'POST', body: f });
         const json = await res.json();
         if (json.success) { await fetchUsers(); renderUsers(); }
         else alert(json.error || 'Update failed');
@@ -185,10 +182,10 @@
     }
 
     if (btn.dataset.action === 'reset-password') {
-      document.getElementById('reset-pw-name').textContent = btn.dataset.name;
-      document.getElementById('reset-pw-index').value = btn.dataset.id;
+      document.getElementById('reset-pw-name').textContent  = btn.dataset.name;
+      document.getElementById('reset-pw-index').value       = btn.dataset.id;
       document.getElementById('form-reset-password').reset();
-      document.getElementById('reset-pw-msg').textContent = '';
+      document.getElementById('reset-pw-msg').textContent   = '';
       openModal('modal-reset-password');
     }
   });
@@ -204,7 +201,7 @@
     const btn = e.target.querySelector('button[type="submit"]');
     btn.disabled = true;
     try {
-      const res = await fetch('../api/add_user.php', { method: 'POST', body: new FormData(e.target) });
+      const res  = await fetch('../api/add_user.php', { method: 'POST', body: new FormData(e.target) });
       const data = await res.json();
       if (data.success) {
         alert(`User added!\nUsername: ${data.username}\nTemporary password: ${data.temporary_password}`);
@@ -225,7 +222,7 @@
 
   document.getElementById('form-reset-password')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const f = new FormData(e.target);
+    const f     = new FormData(e.target);
     const msgEl = document.getElementById('reset-pw-msg');
 
     if (f.get('new_password').length < 8) {
@@ -243,7 +240,7 @@
     f.append('userID', document.getElementById('reset-pw-index').value);
 
     try {
-      const res = await fetch('../api/update_user.php', { method: 'POST', body: f });
+      const res  = await fetch('../api/update_user.php', { method: 'POST', body: f });
       const data = await res.json();
       if (data.success) {
         msgEl.style.color = 'var(--success)';
@@ -262,7 +259,7 @@
     fetchPolicies().then(() => {
       const sel = document.getElementById('policy');
       if (!sel) return;
-      const urlParams = new URLSearchParams(window.location.search);
+      const urlParams   = new URLSearchParams(window.location.search);
       const policyTarget = urlParams.get('id');
 
       sel.innerHTML = '<option value="" disabled selected>Select a policy</option>';
@@ -275,7 +272,7 @@
 
     evalForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const errEl = document.getElementById('eval-error');
+      const errEl    = document.getElementById('eval-error');
       const formData = new FormData(evalForm);
 
       // Normalise the policy field name to policy_id
@@ -293,10 +290,10 @@
       submitBtn.disabled = true;
 
       // Deterministic mock score derived from inputs
-      const str = `${policyVal}${formData.get('period')}${formData.get('dataset')}`;
-      let hash = 0;
+      const str  = `${policyVal}${formData.get('period')}${formData.get('dataset')}`;
+      let hash   = 0;
       for (const c of str) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
-      const base = 45 + (Math.abs(hash) % 45);
+      const base  = 45 + (Math.abs(hash) % 45);
       const score = (base + (Math.abs(hash >> 8) % 10) / 10).toFixed(1);
 
       // Build next run ID from existing evals
@@ -308,14 +305,14 @@
           .filter((n) => !isNaN(n));
         if (nums.length) next = Math.max(...nums) + 1;
       }
-      const year = new Date().getFullYear();
+      const year  = new Date().getFullYear();
       const runId = `EV-${year}-${String(next).padStart(3, '0')}`;
 
-      formData.append('score', score);
+      formData.append('score',  score);
       formData.append('run_id', runId);
 
       try {
-        const res = await fetch('../api/add_evaluation.php', { method: 'POST', body: formData });
+        const res  = await fetch('../api/add_evaluation.php', { method: 'POST', body: formData });
         const json = await res.json();
         if (json.success) {
           window.location.href = `results.php?highlight=${encodeURIComponent(runId)}`;
@@ -338,7 +335,7 @@
 
   async function fetchEvals() {
     try {
-      const res = await fetch('../api/get_evaluations.php');
+      const res  = await fetch('../api/get_evaluations.php');
       const json = await res.json();
       if (json.success) evals = json.data;
     } catch (e) { console.error('fetchEvals:', e); }
@@ -354,7 +351,7 @@
     }
 
     allRunsTbody.innerHTML = evals.map((ev) => {
-      const b = bandFor(ev.score);
+      const b  = bandFor(ev.score);
       const hl = (highlight && ev.runId === highlight) ? ' style="background:#f0f7ff;"' : '';
       return `<tr${hl}>
         <td>${escapeHtml(ev.runId)}</td>
@@ -370,10 +367,10 @@
     // Populate "Latest evaluation summary" card
     const latest = evals[0];
     const el = (id) => document.getElementById(id);
-    if (el('latest-policy-name')) el('latest-policy-name').textContent = latest.policyName || '—';
-    if (el('latest-policy-meta')) el('latest-policy-meta').textContent = `Run on ${latest.evaluationDate} · Using ${latest.dataset}`;
-    if (el('latest-score')) el('latest-score').textContent = latest.score || '—';
-    if (el('latest-run-type')) el('latest-run-type').textContent = latest.runType || '—';
+    if (el('latest-policy-name'))  el('latest-policy-name').textContent  = latest.policyName    || '—';
+    if (el('latest-policy-meta'))  el('latest-policy-meta').textContent  = `Run on ${latest.evaluationDate} · Using ${latest.dataset}`;
+    if (el('latest-score'))        el('latest-score').textContent        = latest.score         || '—';
+    if (el('latest-run-type'))     el('latest-run-type').textContent     = latest.runType       || '—';
   }
 
   if (allRunsTbody) {
@@ -391,7 +388,7 @@
       if (!evals.length) { alert('No data to export'); return; }
 
       const header = ['Run ID', 'Policy', 'Period', 'Run Type', 'Score', 'Band', 'Date'];
-      const rows = evals.map((ev) => {
+      const rows   = evals.map((ev) => {
         const b = bandFor(ev.score);
         return [ev.runId, ev.policyName, ev.period, ev.runType, ev.score, b.label, ev.evaluationDate];
       });
@@ -400,7 +397,7 @@
         .join('\n');
 
       const a = Object.assign(document.createElement('a'), {
-        href: URL.createObjectURL(new Blob([csv], { type: 'text/csv' })),
+        href:     URL.createObjectURL(new Blob([csv], { type: 'text/csv' })),
         download: 'ipipes_results.csv',
       });
       a.click();

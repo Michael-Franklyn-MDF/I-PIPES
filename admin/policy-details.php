@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +15,12 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html"      class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"       class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.html"     class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.html"        class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.html"        class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.html"           class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="dashboard.php"      class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php"       class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.php"     class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.php"        class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php"        class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.php"           class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Michael Franklyn</div>
@@ -31,7 +35,7 @@
         <div class="page-title" id="detail-name">Policy Details</div>
         <div class="page-subtitle" id="detail-meta">—</div>
       </div>
-      <a href="policies.html" class="btn btn-secondary">← Back to Policies</a>
+      <a href="policies.php" class="btn btn-secondary">← Back to Policies</a>
     </div>
 
     <div class="two-col" style="margin-bottom:20px;">
@@ -53,8 +57,8 @@
           <div class="section-title">Quick Actions</div>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">
-          <a id="run-eval-link" href="evaluation.html" class="btn btn-primary">Run Evaluation</a>
-          <a href="results.html" class="btn btn-secondary">View Results</a>
+          <a id="run-eval-link" href="evaluation.php" class="btn btn-primary">Run Evaluation</a>
+          <a href="results.php" class="btn btn-secondary">View Results</a>
         </div>
       </div>
     </div>
@@ -113,7 +117,7 @@
 
     // Pre-fill evaluation link with policy name
     document.getElementById('run-eval-link').href =
-      `evaluation.html?policy=${encodeURIComponent(p.name)}`;
+      `evaluation.php?policy=${encodeURIComponent(p.name)}`;
 
     // Load evaluations for this policy
     const evals = (() => {

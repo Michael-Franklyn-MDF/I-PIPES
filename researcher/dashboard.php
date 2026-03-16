@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +15,9 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html" class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"  class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="results.html"   class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="dashboard.php" class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php"  class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="results.php"   class="nav-item"><span class="nav-icon">▪</span> Results</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Researcher One</div>
@@ -72,7 +76,7 @@
                 <th>Band</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="recent-tbody">
               <tr>
                 <td>EV-2026-012</td>
                 <td>National ICT Policy 2012</td>
@@ -104,9 +108,9 @@
           <div class="section-title">Quick access</div>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
-          <a href="policies.html" class="btn btn-primary">Browse all policies</a>
-          <a href="results.html" class="btn btn-secondary">View all results</a>
-          <a href="results.html" class="btn btn-secondary">Export results as CSV</a>
+          <a href="policies.php" class="btn btn-primary">Browse all policies</a>
+          <a href="results.php" class="btn btn-secondary">View all results</a>
+          <a href="results.php" class="btn btn-secondary">Export results as CSV</a>
         </div>
         <div class="section-header" style="margin-top:8px;">
           <div class="section-title">System notes</div>

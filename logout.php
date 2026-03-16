@@ -1,7 +1,7 @@
 <?php
-declare(strict_types=1);
-
-require __DIR__ . '/auth/session.php';
-
-ipipes_logout('login/index.html');
-
+session_start();
+session_unset();
+session_destroy();
+header('Location: login/index.html');
+exit;
+?>

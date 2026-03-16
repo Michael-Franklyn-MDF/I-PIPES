@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +15,12 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"   class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.html" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.html"    class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.html"    class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.html"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="dashboard.php"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php"   class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.php" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.php"    class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php"    class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.php"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Michael Franklyn</div>

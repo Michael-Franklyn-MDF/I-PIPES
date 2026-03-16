@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +15,12 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html"   class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.html"        class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="dashboard.php"   class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.php"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.php"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.php"        class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Michael Franklyn</div>
@@ -70,7 +74,7 @@
                 <th>Score</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="recent-tbody">
               <tr>
                 <td>EV-2026-012</td>
                 <td>National ICT Policy 2012</td>
@@ -99,9 +103,9 @@
           <div class="section-title">Quick actions</div>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
-          <a href="evaluation.html" class="btn btn-primary">Run new evaluation</a>
-          <a href="policies.html" class="btn btn-secondary">Manage policies</a>
-          <a href="results.html" class="btn btn-secondary">View detailed results</a>
+          <a href="evaluation.php" class="btn btn-primary">Run new evaluation</a>
+          <a href="policies.php" class="btn btn-secondary">Manage policies</a>
+          <a href="results.php" class="btn btn-secondary">View detailed results</a>
         </div>
         <div class="section-header" style="margin-top:8px;">
           <div class="section-title">System notes</div>

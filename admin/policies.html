@@ -11,12 +11,12 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"    class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.html"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.html"        class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="dashboard.html"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"   class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"    class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"    class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.html"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Michael Franklyn</div>
@@ -24,17 +24,19 @@
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
+
   <main class="main-content">
     <div class="page-header">
       <div>
         <div class="page-title">Policies</div>
-        <div class="page-subtitle">Manage ICT policies and their proxy indicators</div>
+        <div class="page-subtitle">Manage ICT policies and their proxy indicators.</div>
       </div>
-      <button class="btn btn-primary">+ Add Policy</button>
+      <button id="btn-add-policy" class="btn btn-primary">+ Add Policy</button>
     </div>
+
     <div class="card">
       <div class="table-wrap">
-        <table id="policies-table">
+        <table>
           <thead>
             <tr>
               <th>Policy Name</th>
@@ -52,6 +54,68 @@
     </div>
   </main>
 </div>
+
+<!-- ── Add Policy Modal ──────────────────────────────────────────────────── -->
+<div id="modal-add-policy" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-policy-title">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-policy-title">Add New Policy</div>
+      <button class="modal-close" id="cancel-policy" aria-label="Close">✕</button>
+    </div>
+
+    <form id="form-add-policy">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="policy_name">Policy Name</label>
+          <input type="text" id="policy_name" name="policy_name" placeholder="e.g. National Broadband Policy 2024" required>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="">Select category</option>
+            <option value="National">National</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Inclusion">Inclusion</option>
+            <option value="Security">Security</option>
+            <option value="Education">Education</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year</label>
+          <input type="number" id="year" name="year" placeholder="e.g. 2024" min="1990" max="2099" required>
+        </div>
+
+        <div class="form-group">
+          <label for="agency">Agency</label>
+          <input type="text" id="agency" name="agency" placeholder="e.g. ICT Ministry" required>
+        </div>
+
+        <div class="form-group">
+          <label for="indicators">No. of Indicators</label>
+          <input type="number" id="indicators" name="indicators" placeholder="e.g. 5" min="0" value="0">
+        </div>
+
+        <div class="form-group full">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option value="active">Active</option>
+            <option value="review">Under review</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancel-policy" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Policy</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>

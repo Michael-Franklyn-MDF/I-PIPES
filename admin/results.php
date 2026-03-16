@@ -1,6 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; }
+if (!isset($_SESSION['role'])) {
+  header('Location: ../login/index.html');
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,9 +47,9 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           <div class="section-title">Latest evaluation summary</div>
         </div>
         <div style="margin-bottom:16px;">
-          <div style="font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em;">Policy</div>
-          <div id="latest-policy-name" style="font-size:17px; font-weight:600; margin-top:4px;">—</div>
-          <div id="latest-policy-meta" style="font-size:13px; color:var(--muted); margin-top:2px;">—</div>
+          <div style="font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Policy</div>
+          <div id="latest-policy-name" style="font-size:17px;font-weight:600;margin-top:4px;">—</div>
+          <div id="latest-policy-meta" style="font-size:13px;color:var(--muted);margin-top:2px;">—</div>
         </div>
         <div class="three-col">
           <div>
@@ -70,7 +73,8 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             <thead>
               <tr><th>Dimension</th><th>Score</th><th>Band</th><th>Bar</th></tr>
             </thead>
-            <tbody id="results-tbody">
+            <!-- FIX: unique ID so script can target it separately from the runs table -->
+            <tbody id="results-tbody-dimensions">
               <tr>
                 <td>Access &amp; Infrastructure</td><td>78.2</td>
                 <td><span class="badge badge-high">High</span></td>
@@ -108,7 +112,8 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <th>Run ID</th><th>Policy</th><th>Period</th><th>Run Type</th><th>Score</th><th>Band</th><th>Date</th>
             </tr>
           </thead>
-          <tbody id="results-tbody"></tbody>
+          <!-- FIX: unique ID targeted by script.js as 'results-tbody-runs' -->
+          <tbody id="results-tbody-runs"></tbody>
         </table>
       </div>
     </div>

@@ -30,15 +30,16 @@ try {
     echo "Creating Policies table...\n";
     $pdo->exec("
         CREATE TABLE IF NOT EXISTS Policies (
-            policyID   INT AUTO_INCREMENT PRIMARY KEY,
-            name       VARCHAR(255) NOT NULL,
-            category   VARCHAR(100) NOT NULL,
-            year       VARCHAR(10)  NOT NULL,
-            agency     VARCHAR(255) NOT NULL,
-            indicators INT          DEFAULT 0,
-            status     VARCHAR(50)  DEFAULT 'Active',
-            createdBy  INT,
-            createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            policyID    INT AUTO_INCREMENT PRIMARY KEY,
+            policyName  VARCHAR(255) NOT NULL,
+            description TEXT,
+            category    VARCHAR(100) NOT NULL,
+            year        VARCHAR(10)  NOT NULL,
+            agency      VARCHAR(255) NOT NULL,
+            targetArea  VARCHAR(255),
+            status      ENUM('active','review','inactive') NOT NULL DEFAULT 'active',
+            dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            createdBy   INT,
             FOREIGN KEY (createdBy) REFERENCES Users(userID) ON DELETE SET NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ");

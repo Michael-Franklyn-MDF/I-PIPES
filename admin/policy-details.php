@@ -140,11 +140,14 @@ if (!isset($_SESSION['role'])) {
 
       // ── Populate header ──────────────────────────────────────────────────────────
       const statusMap = {
-        'Active': { cls: 'badge-active', label: 'Active' },
-        'Under review': { cls: 'badge-review', label: 'Under review' },
-        'Inactive': { cls: 'badge-inactive', label: 'Inactive' },
+        active:   { cls: 'badge-active',  label: 'Active' },
+        review:   { cls: 'badge-review',  label: 'Under review' },
+        inactive: { cls: 'badge-inactive',label: 'Inactive' },
       };
-      const sb = statusMap[p.status] || statusMap['Active'];
+      const sb = {
+        cls:   p.statusCls   || statusMap[p.status]?.cls   || 'badge-active',
+        label: p.statusLabel || statusMap[p.status]?.label || 'Active',
+      };
 
       document.title = `I-PIPES — ${p.name}`;
       document.getElementById('detail-name').textContent = p.name;

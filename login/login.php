@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Redirect based on role
         switch ($user['role']) {
             case 'admin':
-                header('Location: ../admin/dashboard.html');
+                header('Location: ../admin/dashboard.php');
                 break;
             case 'analyst':
-                header('Location: ../policyAnalyst/dashboard.html');
+                header('Location: ../policyAnalyst/dashboard.php');
                 break;
             case 'researcher':
-                header('Location: ../researcher/dashboard.html');
+                header('Location: ../researcher/dashboard.php');
                 break;
             default:
                 header('Location: index.html?error=Unknown role');

@@ -1,3 +1,11 @@
+// Show error from URL if redirected back after failed signup
+const params = new URLSearchParams(window.location.search);
+const urlError = params.get('error');
+if (urlError) {
+  const errorMsgEl = document.getElementById('error-msg');
+  if (errorMsgEl) errorMsgEl.textContent = urlError;
+}
+
 // --- DOM ---
 const form = document.getElementById('signup-form');
 const fullNameInput = document.getElementById('full-name');

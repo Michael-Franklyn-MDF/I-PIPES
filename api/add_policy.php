@@ -34,11 +34,59 @@ if (empty($policyName) || empty($category) || empty($year) || empty($agency)) {
 }
 
 try {
-    $stmt = $pdo->prepare(
-        "INSERT INTO Policies (policyName, description, category, year, agency, targetArea, status)
-         VALUES (?, ?, ?, ?, ?, ?, ?)"
-    );
-    $stmt->execute([$policyName, $description, $category, $year, $agency, $targetArea, $status]);
+    // Schema compatibility: detect column names at runtime.
+    $cols = $pdo->query("SHOW COLUMNS FROM Policies")->fetchAll(PDO::FETCH_COLUMN, 0);
+    $colsLower = array_map('strtolower', $cols ?: []);
+    $has = fn($c) => in_array(strtolower($c), $colsLower, true);
+
+    $columns = [];
+    $values  = [];
+
+    // name / policyName
+    if ($has('policyName')) {
+        $columns[] = 'policyName';
+        $values[]  = $policyName;
+    } else {
+        $columns[] = 'name';
+        $values[]  = $policyName;
+    }
+
+    if ($has('description')) {
+        $columns[] = 'description';
+        $values[]  = $description;
+    }
+
+    $columns[] = 'category';
+    $values[]  = $category;
+    $columns[] = 'year';
+    $values[]  = $year;
+    $columns[] = 'agency';
+    $values[]  = $agency;
+
+    if ($has('targetArea')) {
+        $columns[] = 'targetArea';
+        $values[]  = $targetArea;
+    }
+
+    if ($has('status')) {
+        // If legacy status column expects capitalized values, map them.
+        $statusType = $pdo->query("SHOW COLUMNS FROM Policies LIKE 'status'")->fetch(PDO::FETCH_ASSOC);
+        $type = strtolower($statusType['Type'] ?? '');
+        if (str_contains($type, "enum('active','review','inactive')")) {
+            $columns[] = 'status';
+            $values[]  = $status;
+        } else {
+            $map = ['active' => 'Active', 'review' => 'Under review', 'inactive' => 'Inactive'];
+            $columns[] = 'status';
+            $values[]  = $map[$status] ?? 'Active';
+        }
+    }
+
+    $placeholders = implode(', ', array_fill(0, count($columns), '?'));
+    $colsSql = implode(', ', $columns);
+
+    $stmt = $pdo->prepare("INSERT INTO Policies ({$colsSql}) VALUES ({$placeholders})");
+    $stmt->execute($values);
 
     echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);
 } catch (PDOException $e) {

@@ -3,15 +3,32 @@ header('Content-Type: application/json');
 require '../config/db.php';
 
 try {
-    // FIX: removed JOIN on createdBy (column doesn't exist), use actual column names
+    // Schema compatibility: detect column names at runtime.
+    $cols = $pdo->query("SHOW COLUMNS FROM Policies")->fetchAll(PDO::FETCH_COLUMN, 0);
+    $colsLower = array_map('strtolower', $cols ?: []);
+    $has = fn($c) => in_array(strtolower($c), $colsLower, true);
+
+    $nameCol = $has('policyName') ? 'policyName' : 'name';
+    $descSel = $has('description') ? 'description' : "'' AS description";
+    $targetSel = $has('targetArea') ? 'targetArea' : "'' AS targetArea";
+    $dateCol = $has('dateCreated') ? 'dateCreated' : ($has('createdAt') ? 'createdAt' : 'NULL');
+
     $stmt = $pdo->query(
-        "SELECT policyID, policyName AS name, description, category, year, agency, targetArea, status, dateCreated AS createdAt
+        "SELECT policyID,
+                {$nameCol} AS name,
+                {$descSel},
+                category,
+                year,
+                agency,
+                {$targetSel},
+                status,
+                {$dateCol} AS createdAt
          FROM Policies
-         ORDER BY dateCreated DESC"
+         ORDER BY {$dateCol} DESC"
     );
     $policies = $stmt->fetchAll();
 
-    // FIX: map lowercase status enum values to display labels for the frontend
+    // Map status values to display labels for the frontend (supports old/new values)
     $statusMap = [
         'active'   => ['label' => 'Active',       'cls' => 'badge-active'],
         'review'   => ['label' => 'Under review',  'cls' => 'badge-review'],
@@ -19,10 +36,12 @@ try {
     ];
 
     foreach ($policies as &$p) {
-        $s = $statusMap[$p['status']] ?? $statusMap['active'];
+        $raw = strtolower(trim((string)($p['status'] ?? 'active')));
+        if ($raw === 'under review') $raw = 'review';
+        $s = $statusMap[$raw] ?? $statusMap['active'];
         $p['statusLabel'] = $s['label'];
         $p['statusCls']   = $s['cls'];
-        // indicators column doesn't exist — default to 0
+        // indicators column doesn't exist in new schema — default to 0
         $p['indicators']  = 0;
     }
 

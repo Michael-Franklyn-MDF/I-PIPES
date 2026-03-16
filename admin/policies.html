@@ -33,19 +33,12 @@
       </div>
       <button id="btn-add-policy" class="btn btn-primary">+ Add Policy</button>
     </div>
-
     <div class="card">
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Policy Name</th>
-              <th>Category</th>
-              <th>Year</th>
-              <th>Agency</th>
-              <th>Indicators</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>Policy Name</th><th>Category</th><th>Year</th><th>Agency</th><th>Indicators</th><th>Status</th><th>Actions</th>
             </tr>
           </thead>
           <tbody id="policies-tbody"></tbody>
@@ -55,21 +48,19 @@
   </main>
 </div>
 
-<!-- ── Add Policy Modal ──────────────────────────────────────────────────── -->
-<div id="modal-add-policy" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-policy-title">
+<!-- Add Policy Modal -->
+<div id="modal-add-policy" class="modal-backdrop" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modal-policy-title">Add New Policy</div>
-      <button class="modal-close" id="cancel-policy" aria-label="Close">✕</button>
+      <div class="modal-title">Add New Policy</div>
+      <button class="modal-close" id="cancel-policy">✕</button>
     </div>
-
     <form id="form-add-policy">
       <div class="form-grid">
         <div class="form-group full">
           <label for="policy_name">Policy Name</label>
           <input type="text" id="policy_name" name="policy_name" placeholder="e.g. National Broadband Policy 2024" required>
         </div>
-
         <div class="form-group">
           <label for="category">Category</label>
           <select id="category" name="category" required>
@@ -82,22 +73,18 @@
             <option value="Other">Other</option>
           </select>
         </div>
-
         <div class="form-group">
           <label for="year">Year</label>
           <input type="number" id="year" name="year" placeholder="e.g. 2024" min="1990" max="2099" required>
         </div>
-
         <div class="form-group">
           <label for="agency">Agency</label>
           <input type="text" id="agency" name="agency" placeholder="e.g. ICT Ministry" required>
         </div>
-
         <div class="form-group">
           <label for="indicators">No. of Indicators</label>
           <input type="number" id="indicators" name="indicators" placeholder="e.g. 5" min="0" value="0">
         </div>
-
         <div class="form-group full">
           <label for="status">Status</label>
           <select id="status" name="status">
@@ -107,7 +94,6 @@
           </select>
         </div>
       </div>
-
       <div class="modal-footer">
         <button type="button" id="cancel-policy" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Add Policy</button>

@@ -33,18 +33,12 @@
       </div>
       <button id="btn-add-user" class="btn btn-primary">+ Add User</button>
     </div>
-
     <div class="card">
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Last login</th>
-              <th>Actions</th>
+              <th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last login</th><th>Actions</th>
             </tr>
           </thead>
           <tbody id="users-tbody"></tbody>
@@ -54,25 +48,22 @@
   </main>
 </div>
 
-<!-- ── Add User Modal ────────────────────────────────────────────────────── -->
-<div id="modal-add-user" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-user-title">
+<!-- Add User Modal -->
+<div id="modal-add-user" class="modal-backdrop" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modal-user-title">Add New User</div>
-      <button class="modal-close" id="cancel-user" aria-label="Close">✕</button>
+      <div class="modal-title">Add New User</div>
+      <button class="modal-close" id="cancel-user">✕</button>
     </div>
-
     <form id="form-add-user">
       <div class="form-group">
         <label for="full_name">Full Name</label>
         <input type="text" id="full_name" name="full_name" placeholder="e.g. Jane Mwangi" required>
       </div>
-
       <div class="form-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" name="email" placeholder="e.g. jane@example.org" required>
       </div>
-
       <div class="form-group">
         <label for="role">Role</label>
         <select id="role" name="role" required>
@@ -82,10 +73,38 @@
           <option value="researcher">Researcher</option>
         </select>
       </div>
-
       <div class="modal-footer">
         <button type="button" id="cancel-user" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Add User</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="modal-reset-password" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Reset Password</div>
+      <button class="modal-close" id="cancel-reset-pw">✕</button>
+    </div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:18px;">
+      Setting new password for <strong id="reset-pw-name"></strong>.
+    </p>
+    <form id="form-reset-password">
+      <input type="hidden" id="reset-pw-index" name="user_index">
+      <div class="form-group">
+        <label for="new_password">New Password</label>
+        <input type="password" id="new_password" name="new_password" placeholder="Min. 8 characters" required>
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Repeat new password" required>
+      </div>
+      <div id="reset-pw-msg" style="font-size:13px; min-height:18px; margin-bottom:10px;"></div>
+      <div class="modal-footer">
+        <button type="button" id="cancel-reset-pw" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Update Password</button>
       </div>
     </form>
   </div>

@@ -11,12 +11,12 @@
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.html"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.html"  class="nav-item active"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.html"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.html"     class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.html"        class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="dashboard.html"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.html"   class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.html" class="nav-item active"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.html"    class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.html"    class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.html"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name">Michael Franklyn</div>
@@ -34,58 +34,61 @@
     </div>
 
     <div class="card">
-      <form>
+      <form id="form-run-evaluation">
         <div class="form-grid">
           <div class="form-group">
-            <label for="policy">Policy</label>
+            <label for="policy">Policy <span style="color:var(--danger)">*</span></label>
             <select id="policy" name="policy">
               <option value="">Select a policy</option>
-              <option>National ICT Policy 2012</option>
-              <option>Broadband Expansion Strategy</option>
-              <option>Digital Inclusion Roadmap</option>
-              <option>Cybersecurity Framework</option>
+              <option value="National ICT Policy 2012">National ICT Policy 2012</option>
+              <option value="Broadband Expansion Strategy">Broadband Expansion Strategy</option>
+              <option value="Digital Inclusion Roadmap">Digital Inclusion Roadmap</option>
+              <option value="Cybersecurity Framework">Cybersecurity Framework</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="period">Evaluation period</label>
+            <label for="period">Evaluation Period <span style="color:var(--danger)">*</span></label>
             <select id="period" name="period">
               <option value="">Select period</option>
-              <option>2024 (Annual)</option>
-              <option>2023 (Annual)</option>
-              <option>Q1 2025</option>
-              <option>Q4 2024</option>
+              <option value="2024 (Annual)">2024 (Annual)</option>
+              <option value="2023 (Annual)">2023 (Annual)</option>
+              <option value="Q1 2025">Q1 2025</option>
+              <option value="Q4 2024">Q4 2024</option>
+              <option value="Q3 2024">Q3 2024</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="dataset">Data source</label>
+            <label for="dataset">Data Source <span style="color:var(--danger)">*</span></label>
             <select id="dataset" name="dataset">
               <option value="">Select dataset</option>
-              <option>World Bank Open Data</option>
-              <option>ITU ICT Indicators</option>
-              <option>National Bureau of Statistics</option>
-              <option>Custom uploaded dataset</option>
+              <option value="World Bank Open Data">World Bank Open Data</option>
+              <option value="ITU ICT Indicators">ITU ICT Indicators</option>
+              <option value="National Bureau of Statistics">National Bureau of Statistics</option>
+              <option value="Custom uploaded dataset">Custom uploaded dataset</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="run-type">Run type</label>
-            <select id="run-type" name="run_type">
+            <label for="run_type">Run Type <span style="color:var(--danger)">*</span></label>
+            <select id="run_type" name="run_type">
               <option value="">Select run type</option>
-              <option>Full evaluation</option>
-              <option>Quick check</option>
-              <option>Sensitivity analysis</option>
+              <option value="Full evaluation">Full evaluation</option>
+              <option value="Quick check">Quick check</option>
+              <option value="Sensitivity analysis">Sensitivity analysis</option>
             </select>
           </div>
 
           <div class="form-group full">
-            <label for="notes">Evaluation notes</label>
+            <label for="notes">Evaluation Notes</label>
             <textarea id="notes" name="notes" rows="4" placeholder="Optional context, assumptions, or questions for reviewers."></textarea>
           </div>
         </div>
 
-        <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 12px;">
+        <div id="eval-error" class="error-msg"></div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:4px;">
           <button type="reset" class="btn btn-secondary">Clear form</button>
           <button type="submit" class="btn btn-primary">Run evaluation</button>
         </div>

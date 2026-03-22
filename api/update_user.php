@@ -30,7 +30,7 @@ if (!$userID || !$action) {
 try {
     if ($action === 'toggle_status') {
         $status = trim($data['status'] ?? '');
-        if ($status !== 'active' && $status !== 'inactive') {
+        if ($status !== 'active' && $status !== 'disabled') {
             echo json_encode(['success' => false, 'error' => 'Invalid status']);
             exit;
         }

@@ -25,7 +25,7 @@ try {
         $user['roleCls'] = $r['cls'];
         
         $user['statusCls'] = ($user['status'] === 'active') ? 'badge-active' : 'badge-inactive';
-        $user['statusLabel'] = ucfirst($user['status']);
+        $user['statusLabel'] = ($user['status'] === 'active') ? 'Active' : 'Inactive';
         $user['lastLogin'] = '—'; // Placeholder for now, could be added to DB later
     }
     

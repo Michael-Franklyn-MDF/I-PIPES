@@ -144,7 +144,7 @@
           <button class="btn btn-sm ${isDisabled ? 'btn-secondary' : 'btn-danger'}"
                   data-action="toggle-status"
                   data-id="${escapeHtml(String(u.userID))}"
-                  data-status="${isDisabled ? 'active' : 'disabled'}">
+                  data-status="${isDisabled ? 'active' : 'inactive'}">
             ${isDisabled ? 'Enable' : 'Disable'}
           </button>
           <button class="btn btn-secondary btn-sm"

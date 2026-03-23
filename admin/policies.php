@@ -57,7 +57,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Add New Policy</div>
-      <button class="modal-close" id="cancel-policy">✕</button>
+      <button class="modal-close cancel-policy" type="button">✕</button>
     </div>
     <form id="form-add-policy">
       <div class="form-grid">
@@ -119,10 +119,9 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           </div>
         </div>
 
-        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="cancel-policy" class="btn btn-secondary">Cancel</button>
+        <button type="button" class="btn btn-secondary cancel-policy">Cancel</button>
         <button type="submit" class="btn btn-primary">Add Policy</button>
       </div>
     </form>

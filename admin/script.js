@@ -88,8 +88,8 @@
     fetchPolicies().then(() => renderPolicies());
   }
 
-  // Two cancel buttons share the same id in the template – handle both
-  document.querySelectorAll('#cancel-policy').forEach((btn) =>
+  // Close buttons in the Add Policy modal
+  document.querySelectorAll('.cancel-policy').forEach((btn) =>
     btn.addEventListener('click', () => closeModal('modal-add-policy'))
   );
   // ── Indicator row builder (Add Policy modal) ──────────────────────────────

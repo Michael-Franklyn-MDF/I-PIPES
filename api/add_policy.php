@@ -92,15 +92,36 @@ try {
     // Save indicators if provided
     $indicators = json_decode($data['indicators'] ?? '[]', true);
     if (is_array($indicators) && count($indicators) >= 3) {
-        $iStmt = $pdo->prepare(
-            "INSERT INTO Indicators (policyID, name, weight) VALUES (?, ?, ?)"
-        );
-        foreach ($indicators as $ind) {
-            $iName   = trim($ind['name']   ?? '');
-            $iWeight = (float)($ind['weight'] ?? 0);
-            if ($iName !== '' && $iWeight > 0) {
-                $iStmt->execute([$newPolicyID, $iName, $iWeight]);
+        // Schema compatibility: detect Indicators column names at runtime.
+        $iCols = $pdo->query("SHOW COLUMNS FROM Indicators")->fetchAll(PDO::FETCH_COLUMN, 0);
+        $iColsLower = array_map('strtolower', $iCols ?: []);
+        $iHas = fn($c) => in_array(strtolower($c), $iColsLower, true);
+
+        $policyCol = $iHas('policyID') ? 'policyID'
+                    : ($iHas('policy_id') ? 'policy_id'
+                    : ($iHas('policyId') ? 'policyId' : null));
+
+        $nameCol   = $iHas('name') ? 'name'
+                    : ($iHas('indicatorName') ? 'indicatorName'
+                    : ($iHas('indicator_name') ? 'indicator_name' : null));
+
+        $weightCol = $iHas('weight') ? 'weight'
+                    : ($iHas('indicatorWeight') ? 'indicatorWeight'
+                    : ($iHas('indicator_weight') ? 'indicator_weight' : null));
+
+        if ($policyCol && $nameCol && $weightCol) {
+            $iStmt = $pdo->prepare(
+                "INSERT INTO Indicators ({$policyCol}, {$nameCol}, {$weightCol}) VALUES (?, ?, ?)"
+            );
+            foreach ($indicators as $ind) {
+                $iName   = trim($ind['name']   ?? '');
+                $iWeight = (float)($ind['weight'] ?? 0);
+                if ($iName !== '' && $iWeight > 0) {
+                    $iStmt->execute([$newPolicyID, $iName, $iWeight]);
+                }
             }
+        } else {
+            throw new PDOException("Indicators table schema not recognized.");
         }
     }
 

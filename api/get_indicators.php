@@ -10,7 +10,8 @@ if (!$policyID) {
 
 try {
     $stmt = $pdo->prepare(
-        "SELECT indicatorID, name, weight FROM Indicators WHERE policyID = ? ORDER BY indicatorID ASC"
+        "SELECT indicatorID, indicatorName AS name, weight
+         FROM Indicators WHERE policyID = ? ORDER BY indicatorID ASC"
     );
     $stmt->execute([$policyID]);
     $indicators = $stmt->fetchAll();

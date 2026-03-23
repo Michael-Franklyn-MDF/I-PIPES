@@ -222,6 +222,10 @@
         <td><span class="badge ${escapeHtml(u.statusCls || (isDisabled ? 'badge-inactive' : 'badge-active'))}">${escapeHtml(u.statusLabel || u.status)}</span></td>
         <td>${escapeHtml(u.lastLogin || '—')}</td>
         <td style="display:flex;gap:6px;flex-wrap:wrap;">
+          <a class="btn btn-secondary btn-sm"
+             href="user-details.php?id=${encodeURIComponent(String(u.userID))}">
+            View
+          </a>
           <button class="btn btn-sm ${isDisabled ? 'btn-secondary' : 'btn-danger'}"
                   data-action="toggle-status"
                   data-id="${escapeHtml(String(u.userID))}"

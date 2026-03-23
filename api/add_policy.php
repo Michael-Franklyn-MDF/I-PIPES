@@ -13,7 +13,6 @@ if (empty($data)) {
     $data = json_decode(file_get_contents('php://input'), true) ?? [];
 }
 
-// FIX: match actual column names in the Policies table
 $policyName  = trim($data['policy_name']  ?? '');
 $description = trim($data['description']  ?? '');
 $category    = trim($data['category']     ?? '');
@@ -22,7 +21,6 @@ $agency      = trim($data['agency']       ?? '');
 $targetArea  = trim($data['targetArea']   ?? '');
 $status      = trim($data['status']       ?? 'active');
 
-// FIX: status values must be lowercase to match enum('active','review','inactive')
 $allowedStatuses = ['active', 'review', 'inactive'];
 if (!in_array($status, $allowedStatuses)) {
     $status = 'active';
@@ -34,7 +32,7 @@ if (empty($policyName) || empty($category) || empty($year) || empty($agency)) {
 }
 
 try {
-    // Schema compatibility: detect column names at runtime.
+    // Detect Policies column names at runtime
     $cols = $pdo->query("SHOW COLUMNS FROM Policies")->fetchAll(PDO::FETCH_COLUMN, 0);
     $colsLower = array_map('strtolower', $cols ?: []);
     $has = fn($c) => in_array(strtolower($c), $colsLower, true);
@@ -42,7 +40,6 @@ try {
     $columns = [];
     $values  = [];
 
-    // name / policyName
     if ($has('policyName')) {
         $columns[] = 'policyName';
         $values[]  = $policyName;
@@ -69,59 +66,29 @@ try {
     }
 
     if ($has('status')) {
-        // If legacy status column expects capitalized values, map them.
-        $statusType = $pdo->query("SHOW COLUMNS FROM Policies LIKE 'status'")->fetch(PDO::FETCH_ASSOC);
-        $type = strtolower($statusType['Type'] ?? '');
-        if (str_contains($type, "enum('active','review','inactive')")) {
-            $columns[] = 'status';
-            $values[]  = $status;
-        } else {
-            $map = ['active' => 'Active', 'review' => 'Under review', 'inactive' => 'Inactive'];
-            $columns[] = 'status';
-            $values[]  = $map[$status] ?? 'Active';
-        }
+        $columns[] = 'status';
+        $values[]  = $status;
     }
 
     $placeholders = implode(', ', array_fill(0, count($columns), '?'));
-    $colsSql = implode(', ', $columns);
+    $colsSql      = implode(', ', $columns);
 
     $stmt = $pdo->prepare("INSERT INTO Policies ({$colsSql}) VALUES ({$placeholders})");
     $stmt->execute($values);
     $newPolicyID = $pdo->lastInsertId();
 
-    // Save indicators if provided
+    // Save indicators — uses indicatorName to match actual DB column
     $indicators = json_decode($data['indicators'] ?? '[]', true);
     if (is_array($indicators) && count($indicators) >= 3) {
-        // Schema compatibility: detect Indicators column names at runtime.
-        $iCols = $pdo->query("SHOW COLUMNS FROM Indicators")->fetchAll(PDO::FETCH_COLUMN, 0);
-        $iColsLower = array_map('strtolower', $iCols ?: []);
-        $iHas = fn($c) => in_array(strtolower($c), $iColsLower, true);
-
-        $policyCol = $iHas('policyID') ? 'policyID'
-                    : ($iHas('policy_id') ? 'policy_id'
-                    : ($iHas('policyId') ? 'policyId' : null));
-
-        $nameCol   = $iHas('name') ? 'name'
-                    : ($iHas('indicatorName') ? 'indicatorName'
-                    : ($iHas('indicator_name') ? 'indicator_name' : null));
-
-        $weightCol = $iHas('weight') ? 'weight'
-                    : ($iHas('indicatorWeight') ? 'indicatorWeight'
-                    : ($iHas('indicator_weight') ? 'indicator_weight' : null));
-
-        if ($policyCol && $nameCol && $weightCol) {
-            $iStmt = $pdo->prepare(
-                "INSERT INTO Indicators ({$policyCol}, {$nameCol}, {$weightCol}) VALUES (?, ?, ?)"
-            );
-            foreach ($indicators as $ind) {
-                $iName   = trim($ind['name']   ?? '');
-                $iWeight = (float)($ind['weight'] ?? 0);
-                if ($iName !== '' && $iWeight > 0) {
-                    $iStmt->execute([$newPolicyID, $iName, $iWeight]);
-                }
+        $iStmt = $pdo->prepare(
+            "INSERT INTO Indicators (policyID, indicatorName, weight) VALUES (?, ?, ?)"
+        );
+        foreach ($indicators as $ind) {
+            $iName   = trim($ind['name']   ?? '');
+            $iWeight = (float)($ind['weight'] ?? 0);
+            if ($iName !== '' && $iWeight > 0) {
+                $iStmt->execute([$newPolicyID, $iName, $iWeight]);
             }
-        } else {
-            throw new PDOException("Indicators table schema not recognized.");
         }
     }
 

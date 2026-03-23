@@ -1,4 +1,4 @@
-<?php
+    <?php
 // Initialize database tables for I-PIPES
 require 'db.php';
 
@@ -63,11 +63,33 @@ try {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ");
 
+    echo "Creating Indicators table...\n";
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS Indicators (
+            indicatorID INT AUTO_INCREMENT PRIMARY KEY,
+            policyID    INT          NOT NULL,
+            name        VARCHAR(255) NOT NULL,
+            weight      DECIMAL(5,2) NOT NULL,
+            FOREIGN KEY (policyID) REFERENCES Policies(policyID) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    ");
+
+    echo "Creating EvaluationIndicators table...\n";
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS EvaluationIndicators (
+            id          INT AUTO_INCREMENT PRIMARY KEY,
+            runId       VARCHAR(50) NOT NULL,
+            indicatorID INT         NOT NULL,
+            score       DECIMAL(5,2) NOT NULL,
+            FOREIGN KEY (runId)       REFERENCES Evaluations(runId)   ON DELETE CASCADE,
+            FOREIGN KEY (indicatorID) REFERENCES Indicators(indicatorID) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    ");
+
     echo "All tables created successfully.\n";
 
 }
 catch (PDOException $e) {
     die("Error: " . $e->getMessage() . "\n");
 }
-?>
 ?>

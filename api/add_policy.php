@@ -87,8 +87,24 @@ try {
 
     $stmt = $pdo->prepare("INSERT INTO Policies ({$colsSql}) VALUES ({$placeholders})");
     $stmt->execute($values);
+    $newPolicyID = $pdo->lastInsertId();
 
-    echo json_encode(['success' => true, 'id' => $pdo->lastInsertId()]);
+    // Save indicators if provided
+    $indicators = json_decode($data['indicators'] ?? '[]', true);
+    if (is_array($indicators) && count($indicators) >= 3) {
+        $iStmt = $pdo->prepare(
+            "INSERT INTO Indicators (policyID, name, weight) VALUES (?, ?, ?)"
+        );
+        foreach ($indicators as $ind) {
+            $iName   = trim($ind['name']   ?? '');
+            $iWeight = (float)($ind['weight'] ?? 0);
+            if ($iName !== '' && $iWeight > 0) {
+                $iStmt->execute([$newPolicyID, $iName, $iWeight]);
+            }
+        }
+    }
+
+    echo json_encode(['success' => true, 'id' => $newPolicyID]);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }

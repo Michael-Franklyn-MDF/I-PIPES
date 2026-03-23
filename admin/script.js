@@ -88,19 +88,100 @@
     fetchPolicies().then(() => renderPolicies());
   }
 
-  document.getElementById('btn-add-policy')?.addEventListener('click', () => openModal('modal-add-policy'));
-
   // Two cancel buttons share the same id in the template – handle both
   document.querySelectorAll('#cancel-policy').forEach((btn) =>
     btn.addEventListener('click', () => closeModal('modal-add-policy'))
   );
+  // ── Indicator row builder (Add Policy modal) ──────────────────────────────
+  function makeIndicatorRow(index) {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:8px;align-items:center;';
+    row.innerHTML = `
+      <input type="text" placeholder="Indicator name (e.g. Internet penetration)"
+             data-ind-name="${index}"
+             style="flex:1;padding:8px 10px;border:1px solid var(--border);
+                    border-radius:var(--radius);font-size:13px;
+                    font-family:'DM Sans',sans-serif;">
+      <input type="number" min="1" max="100" step="0.5" placeholder="Weight %"
+             data-ind-weight="${index}"
+             style="width:90px;padding:8px 10px;border:1px solid var(--border);
+                    border-radius:var(--radius);font-size:13px;
+                    font-family:'DM Sans',sans-serif;">
+      <button type="button" class="btn btn-danger btn-sm remove-indicator-row"
+              style="padding:6px 10px;">✕</button>
+    `;
+    row.querySelector('.remove-indicator-row').addEventListener('click', () => {
+      row.remove();
+      updateWeightTotal();
+    });
+    row.querySelectorAll('input').forEach((inp) =>
+      inp.addEventListener('input', updateWeightTotal)
+    );
+    return row;
+  }
+
+  function updateWeightTotal() {
+    const weights = Array.from(document.querySelectorAll('[data-ind-weight]'))
+      .map((el) => parseFloat(el.value) || 0);
+    const total = weights.reduce((a, b) => a + b, 0);
+    const totalEl = document.getElementById('weight-total');
+    const msgEl   = document.getElementById('weight-total-msg');
+    if (totalEl) totalEl.textContent = total.toFixed(1);
+    if (msgEl) {
+      msgEl.style.color = Math.abs(total - 100) < 0.1 ? 'var(--success)' : 'var(--muted)';
+    }
+  }
+
+  let indicatorIndex = 0;
+
+  document.getElementById('btn-add-indicator')?.addEventListener('click', () => {
+    const container = document.getElementById('indicator-rows');
+    if (!container) return;
+    container.appendChild(makeIndicatorRow(indicatorIndex++));
+  });
+
+  // Pre-populate 3 rows when modal opens
+  document.getElementById('btn-add-policy')?.addEventListener('click', () => {
+    const container = document.getElementById('indicator-rows');
+    if (container && container.children.length === 0) {
+      for (let i = 0; i < 3; i++) container.appendChild(makeIndicatorRow(indicatorIndex++));
+    }
+    openModal('modal-add-policy');
+  });
 
   document.getElementById('form-add-policy')?.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Validate indicators
+    const nameInputs   = Array.from(document.querySelectorAll('[data-ind-name]'));
+    const weightInputs = Array.from(document.querySelectorAll('[data-ind-weight]'));
+
+    if (nameInputs.length < 3) {
+      alert('Please add at least 3 indicators.');
+      return;
+    }
+
+    const indicators = nameInputs.map((el, i) => ({
+      name:   el.value.trim(),
+      weight: parseFloat(weightInputs[i]?.value) || 0,
+    }));
+
+    const hasEmpty  = indicators.some((ind) => !ind.name || ind.weight <= 0);
+    const totalW    = indicators.reduce((a, b) => a + b.weight, 0);
+
+    if (hasEmpty) { alert('All indicators must have a name and weight.'); return; }
+    if (Math.abs(totalW - 100) > 0.5) {
+      alert(`Weights must sum to 100%. Current total: ${totalW.toFixed(1)}%`);
+      return;
+    }
+
     const btn = e.target.querySelector('button[type="submit"]');
     btn.disabled = true;
+    const fd = new FormData(e.target);
+    fd.append('indicators', JSON.stringify(indicators));
+
     try {
-      const res  = await fetch('../api/add_policy.php', { method: 'POST', body: new FormData(e.target) });
+      const res  = await fetch('../api/add_policy.php', { method: 'POST', body: fd });
       const data = await res.json();
       if (data.success) {
         await fetchPolicies();
@@ -256,10 +337,11 @@
   // ─── Evaluation page ──────────────────────────────────────────────────────────
   const evalForm = document.getElementById('form-run-evaluation');
   if (evalForm) {
+    // ── Load policies into the policy selector ────────────────────────────────
     fetchPolicies().then(() => {
       const sel = document.getElementById('policy');
       if (!sel) return;
-      const urlParams   = new URLSearchParams(window.location.search);
+      const urlParams    = new URLSearchParams(window.location.search);
       const policyTarget = urlParams.get('id');
 
       sel.innerHTML = '<option value="" disabled selected>Select a policy</option>';
@@ -268,35 +350,107 @@
         if (String(p.policyID) === String(policyTarget)) opt.selected = true;
         sel.appendChild(opt);
       });
+
+      // If a policy was pre-selected via URL, load its indicators immediately
+      if (policyTarget) loadIndicatorInputs(policyTarget);
     });
+
+    // ── When the policy dropdown changes, load that policy's indicators ───────
+    document.getElementById('policy')?.addEventListener('change', (e) => {
+      loadIndicatorInputs(e.target.value);
+    });
+
+    async function loadIndicatorInputs(policyID) {
+      const container = document.getElementById('indicator-inputs-wrap');
+      if (!container) return;
+
+      if (!policyID) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = '<p style="color:var(--muted);font-size:13px;">Loading indicators…</p>';
+
+      try {
+        const res  = await fetch(`../api/get_indicators.php?policy_id=${encodeURIComponent(policyID)}`);
+        const json = await res.json();
+
+        if (!json.success || !json.data.length) {
+          container.innerHTML =
+            '<p style="color:var(--muted);font-size:13px;">This policy has no indicators defined yet.</p>';
+          return;
+        }
+
+        container.innerHTML = `
+          <label style="font-size:12px;font-weight:500;color:var(--muted);
+                        text-transform:uppercase;letter-spacing:0.05em;">
+            Indicator Scores
+          </label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
+            Enter a score (0–100) for each indicator.
+          </p>
+          ${json.data.map((ind) => `
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+              <span style="flex:1;font-size:14px;">
+                ${escapeHtml(ind.name)}
+                <span style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">
+                  (weight: ${ind.weight}%)
+                </span>
+              </span>
+              <input type="number" min="0" max="100" step="0.1"
+                     placeholder="0–100"
+                     data-indicator-id="${escapeHtml(String(ind.indicatorID))}"
+                     style="width:90px;padding:7px 10px;border:1px solid var(--border);
+                            border-radius:var(--radius);font-size:14px;
+                            font-family:'DM Sans',sans-serif;">
+            </div>
+          `).join('')}
+        `;
+      } catch (err) {
+        container.innerHTML = '<p style="color:var(--danger);font-size:13px;">Failed to load indicators.</p>';
+      }
+    }
 
     evalForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const errEl    = document.getElementById('eval-error');
       const formData = new FormData(evalForm);
 
-      // Normalise the policy field name to policy_id
-      const policyVal = formData.get('policy') || formData.get('policy_id') || '';
-      formData.set('policy_id', policyVal);
-
-      const missing = !policyVal || !formData.get('period') || !formData.get('dataset') || !formData.get('run_type');
+      const policyVal = formData.get('policy') || '';
+      const missing   = !policyVal || !formData.get('period') || !formData.get('dataset') || !formData.get('run_type');
       if (missing) {
         if (errEl) errEl.textContent = 'Please fill in all required fields before running.';
         return;
       }
+      formData.set('policy_id', policyVal);
+
+      // Collect indicator scores
+      const scoreInputs = document.querySelectorAll('[data-indicator-id]');
+      if (!scoreInputs.length) {
+        if (errEl) errEl.textContent = 'Please select a policy with indicators before running.';
+        return;
+      }
+
+      const indicatorScores = [];
+      let hasBlank = false;
+      scoreInputs.forEach((input) => {
+        const val = input.value.trim();
+        if (val === '') { hasBlank = true; return; }
+        indicatorScores.push({
+          indicatorID: parseInt(input.dataset.indicatorId, 10),
+          score: parseFloat(val),
+        });
+      });
+
+      if (hasBlank) {
+        if (errEl) errEl.textContent = 'Please enter a score for every indicator.';
+        return;
+      }
       if (errEl) errEl.textContent = '';
 
-      const submitBtn = e.target.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
+      formData.append('indicator_scores', JSON.stringify(indicatorScores));
 
-      // Deterministic mock score derived from inputs
-      const str  = `${policyVal}${formData.get('period')}${formData.get('dataset')}`;
-      let hash   = 0;
-      for (const c of str) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
-      const base  = 45 + (Math.abs(hash) % 45);
-      const score = (base + (Math.abs(hash >> 8) % 10) / 10).toFixed(1);
-
-      // Build next run ID from existing evals
+      // Generate run ID
       await fetchEvals();
       let next = 1;
       if (evals.length) {
@@ -307,9 +461,10 @@
       }
       const year  = new Date().getFullYear();
       const runId = `EV-${year}-${String(next).padStart(3, '0')}`;
-
-      formData.append('score',  score);
       formData.append('run_id', runId);
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
 
       try {
         const res  = await fetch('../api/add_evaluation.php', { method: 'POST', body: formData });

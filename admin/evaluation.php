@@ -88,6 +88,10 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             <label for="notes">Evaluation Notes</label>
             <textarea id="notes" name="notes" rows="4" placeholder="Optional context, assumptions, or questions for reviewers."></textarea>
           </div>
+
+          <div class="form-group full" id="indicator-inputs-wrap" style="margin-top:4px;">
+            <!-- Indicator score inputs load here when a policy is selected -->
+          </div>
         </div>
 
         <div id="eval-error" class="error-msg"></div>

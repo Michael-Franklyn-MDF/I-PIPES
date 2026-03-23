@@ -95,12 +95,30 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         </div>
         <div class="form-group full">
           <label for="status">Status</label>
-          <!-- FIX: values match enum('active','review','inactive') in the database -->
           <select id="status" name="status">
             <option value="active">Active</option>
             <option value="review">Under review</option>
             <option value="inactive">Inactive</option>
           </select>
+        </div>
+        <div class="form-group full" style="margin-top:8px;">
+          <label>Indicators <span style="color:var(--danger)">*</span>
+            <span style="font-size:11px; color:var(--muted); text-transform:none; letter-spacing:0;">
+              — min. 3, weights must sum to 100%
+            </span>
+          </label>
+
+          <div id="indicator-rows" style="display:flex; flex-direction:column; gap:8px; margin-top:6px;"></div>
+
+          <button type="button" id="btn-add-indicator"
+                  class="btn btn-secondary btn-sm" style="margin-top:8px; align-self:flex-start;">
+            + Add indicator
+          </button>
+          <div id="weight-total-msg" style="font-size:12px; color:var(--muted); margin-top:6px;">
+            Total weight: <strong id="weight-total">0</strong>%
+          </div>
+        </div>
+
         </div>
       </div>
       <div class="modal-footer">

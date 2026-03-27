@@ -42,7 +42,11 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <table>
           <thead>
             <tr>
-              <th>Policy Name</th><th>Category</th><th>Year</th><th>Agency</th><th>Target Area</th><th>Status</th><th>Actions</th>
+              <th>Policy Name</th>
+              <th>Target Area</th>
+              <th>Date Created</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="policies-tbody"></tbody>
@@ -128,6 +132,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>window.POLICIES_API_PATH = '../api/get_policies.php'; window.IS_ADMIN = true;</script>
+<script src="../assets/policies.js"></script>
 </body>
 </html>

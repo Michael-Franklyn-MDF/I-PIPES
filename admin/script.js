@@ -54,27 +54,38 @@
     try {
       const res  = await fetch('../api/get_policies.php');
       const json = await res.json();
-      if (json.success) policies = json.data;
+      const raw = Array.isArray(json) ? json : Array.isArray(json?.data) ? json.data : [];
+      policies = raw.map((p) => ({
+        policyID:   p.policyID ?? p.id ?? p.policy_id ?? '',
+        name:       p.policyName ?? p.name ?? '',
+        category:   p.category ?? '',
+        year:       p.year ?? '',
+        agency:     p.agency ?? '',
+        targetArea: p.targetArea ?? p.target_area ?? '',
+        dateCreated: p.dateCreated ?? p.created_at ?? '',
+        status:     p.status ?? '',
+      }));
     } catch (e) { console.error('fetchPolicies:', e); }
   }
 
   function renderPolicies() {
     if (!policiesTbody) return;
     if (!policies.length) {
-      policiesTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px;">No policies found.</td></tr>`;
+      policiesTbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:32px;">No policies found.</td></tr>`;
       return;
     }
     policiesTbody.innerHTML = policies.map((p) => {
-      // FIX: use statusLabel and statusCls provided by get_policies.php
-      const sCls   = p.statusCls   || 'badge-active';
+      const sCls   = p.statusCls || 'badge-active';
       const sLabel = p.statusLabel || p.status || 'Active';
+      const date   = p.dateCreated ? new Date(p.dateCreated) : null;
+      const dateStr = date && !Number.isNaN(date.getTime())
+        ? date.toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })
+        : (p.dateCreated || '—');
       return `
         <tr>
-          <td>${escapeHtml(p.name)}</td>
-          <td>${escapeHtml(p.category)}</td>
-          <td>${escapeHtml(p.year)}</td>
-          <td>${escapeHtml(p.agency)}</td>
+          <td>${escapeHtml(p.name || '—')}</td>
           <td>${escapeHtml(p.targetArea || '—')}</td>
+          <td>${escapeHtml(dateStr)}</td>
           <td><span class="badge ${sCls}">${escapeHtml(sLabel)}</span></td>
           <td>
             <a href="policy-details.php?id=${encodeURIComponent(p.policyID)}&name=${encodeURIComponent(p.name)}"
@@ -498,6 +509,35 @@
       const json = await res.json();
       if (json.success) evals = json.data;
     } catch (e) { console.error('fetchEvals:', e); }
+  }
+
+  // ─── History page ────────────────────────────────────────────────────────────
+  const historyTbody = document.getElementById('history-evals-tbody');
+
+  function renderHistory() {
+    if (!historyTbody) return;
+
+    if (!evals.length) {
+      historyTbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:32px;">No evaluations yet.</td></tr>`;
+      return;
+    }
+
+    historyTbody.innerHTML = evals.map((ev) => {
+      const b = bandFor(ev.score);
+      return `
+        <tr>
+          <td>${escapeHtml(ev.runId)}</td>
+          <td>${escapeHtml(ev.policyName)}</td>
+          <td>${escapeHtml(ev.evaluatedByName || '—')}</td>
+          <td>${escapeHtml(ev.evaluationDate)}</td>
+          <td>${escapeHtml(ev.runType)}</td>
+          <td><span class="badge ${b.cls}">${b.label}</span></td>
+        </tr>`;
+    }).join('');
+  }
+
+  if (historyTbody) {
+    fetchEvals().then(() => renderHistory());
   }
 
   function renderEvals() {

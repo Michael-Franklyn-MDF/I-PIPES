@@ -77,11 +77,18 @@ try {
     $stmt->execute($values);
     $newPolicyID = $pdo->lastInsertId();
 
-    // Save indicators — uses indicatorName to match actual DB column
+    // Save indicators — support indicatorName or name column
     $indicators = json_decode($data['indicators'] ?? '[]', true);
     if (is_array($indicators) && count($indicators) >= 3) {
+        $iCols = $pdo->query("SHOW COLUMNS FROM Indicators")->fetchAll(PDO::FETCH_COLUMN, 0);
+        $iColsLower = array_map('strtolower', $iCols ?: []);
+        $iHas = fn($c) => in_array(strtolower($c), $iColsLower, true);
+
+        $nameCol = $iHas('indicatorname') ? 'indicatorName' : ($iHas('name') ? 'name' : null);
+        if (!$nameCol) throw new PDOException('Indicators table missing name column');
+
         $iStmt = $pdo->prepare(
-            "INSERT INTO Indicators (policyID, indicatorName, weight) VALUES (?, ?, ?)"
+            "INSERT INTO Indicators (policyID, {$nameCol}, weight) VALUES (?, ?, ?)"
         );
         foreach ($indicators as $ind) {
             $iName   = trim($ind['name']   ?? '');

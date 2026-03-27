@@ -120,14 +120,24 @@ if (!isset($_SESSION['role'])) {
         return;
       }
 
+      const formatDate = (value) => {
+        if (!value) return '—';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return String(value);
+        const day = String(date.getDate()).padStart(2, '0');
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+      };
+
       // ── Fetch all policies and find the one we need ──────────────────────────────
       let p = null;
       try {
         const res = await fetch('../api/get_policies.php');
         const json = await res.json();
-        if (json.success) {
-          p = json.data.find((x) => String(x.policyID) === String(policyId));
-        }
+        const list = Array.isArray(json) ? json : Array.isArray(json?.data) ? json.data : [];
+        p = list.find((x) => String(x.policyID) === String(policyId)) || null;
       } catch (e) { console.error(e); }
 
       if (!p) {
@@ -141,21 +151,21 @@ if (!isset($_SESSION['role'])) {
       // ── Populate header ──────────────────────────────────────────────────────────
       const statusMap = {
         active:   { cls: 'badge-active',  label: 'Active' },
-        review:   { cls: 'badge-review',  label: 'Under review' },
+        review:   { cls: 'badge-review',  label: 'Review' },
         inactive: { cls: 'badge-inactive',label: 'Inactive' },
       };
       const sb = {
-        cls:   p.statusCls   || statusMap[p.status]?.cls   || 'badge-active',
-        label: p.statusLabel || statusMap[p.status]?.label || 'Active',
+        cls:   statusMap[p.status]?.cls   || 'badge-active',
+        label: statusMap[p.status]?.label || 'Active',
       };
 
-      document.title = `I-PIPES — ${p.name}`;
-      document.getElementById('detail-name').textContent = p.name;
-      document.getElementById('detail-meta').textContent = `${p.category} · ${p.agency} · Est. ${p.year}`;
-      document.getElementById('di-category').textContent = p.category;
-      document.getElementById('di-year').textContent = p.year;
-      document.getElementById('di-agency').textContent = p.agency;
-      document.getElementById('di-indicators').textContent = p.indicators ?? '0';
+      document.title = `I-PIPES — ${p.policyName || 'Policy Details'}`;
+      document.getElementById('detail-name').textContent = p.policyName || 'Policy';
+      document.getElementById('detail-meta').textContent = `${p.targetArea || '—'} · ${formatDate(p.dateCreated)}`;
+      document.getElementById('di-category').textContent = '—';
+      document.getElementById('di-year').textContent = '—';
+      document.getElementById('di-agency').textContent = '—';
+      document.getElementById('di-indicators').textContent = '—';
       document.getElementById('detail-status-badge').innerHTML =
         `<span class="badge ${sb.cls}">${escapeHtml(sb.label)}</span>`;
       document.getElementById('run-eval-link').href =

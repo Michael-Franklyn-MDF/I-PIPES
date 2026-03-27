@@ -9,8 +9,15 @@ if (!$policyID) {
 }
 
 try {
+    $cols = $pdo->query("SHOW COLUMNS FROM Indicators")->fetchAll(PDO::FETCH_COLUMN, 0);
+    $colsLower = array_map('strtolower', $cols ?: []);
+    $has = fn($c) => in_array(strtolower($c), $colsLower, true);
+
+    $nameCol = $has('indicatorname') ? 'indicatorName' : ($has('name') ? 'name' : null);
+    if (!$nameCol) throw new PDOException('Indicators table missing name column');
+
     $stmt = $pdo->prepare(
-        "SELECT indicatorID, indicatorName AS name, weight
+        "SELECT indicatorID, {$nameCol} AS name, weight
          FROM Indicators WHERE policyID = ? ORDER BY indicatorID ASC"
     );
     $stmt->execute([$policyID]);

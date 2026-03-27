@@ -54,7 +54,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
                 <th>Outcome</th>
               </tr>
             </thead>
-            <tbody id="results-tbody">
+            <tbody id="history-evals-tbody">
               <tr>
                 <td>EV-2026-012</td>
                 <td>National ICT Policy 2012</td>
@@ -107,7 +107,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
                 <th>Details</th>
               </tr>
             </thead>
-            <tbody id="results-tbody">
+            <tbody id="history-changes-tbody">
               <tr>
                 <td>Indicators updated</td>
                 <td>National ICT Policy 2012</td>

@@ -52,7 +52,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <th>Outcome</th>
             </tr>
             </thead>
-            <tbody id="results-tbody">
+            <tbody id="history-evals-tbody">
             <tr>
               <td>EV-2026-012</td>
               <td>National ICT Policy 2012</td>
@@ -92,7 +92,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <th>Note</th>
             </tr>
             </thead>
-            <tbody id="results-tbody">
+            <tbody id="history-notes-tbody">
             <tr>
               <td>10 Feb 2026</td>
               <td>National ICT Policy 2012</td>
@@ -118,4 +118,3 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
 <script src="script.js"></script>
 </body>
 </html>
-

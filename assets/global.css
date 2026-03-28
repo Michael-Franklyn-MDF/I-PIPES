@@ -388,6 +388,64 @@ tbody tr:hover td { background: #fafafa; }
   color: var(--text);
 }
 
+.section-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.chart-card {
+  margin-bottom: 24px;
+}
+
+.chart-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.chart-canvas {
+  position: relative;
+  min-height: 120px;
+}
+
+.chart-canvas canvas {
+  width: 100%;
+  height: 120px;
+  display: block;
+}
+
+.chart-empty {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--surface2);
+  border-radius: calc(var(--radius) - 6px);
+}
+
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 120px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: var(--accent);
+  vertical-align: middle;
+}
+
 .score-bar-wrap {
   width: 80px;
   height: 4px;

@@ -43,10 +43,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             <label for="policy">Policy</label>
             <select id="policy" name="policy">
               <option value="">Select a policy</option>
-              <option>National ICT Policy 2012</option>
-              <option>Broadband Expansion Strategy</option>
-              <option>Digital Inclusion Roadmap</option>
-              <option>Cybersecurity Framework</option>
             </select>
           </div>
 
@@ -86,6 +82,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             <label for="notes">Evaluation notes</label>
             <textarea id="notes" name="notes" rows="4" placeholder="Capture assumptions, caveats, and questions for reviewers."></textarea>
           </div>
+          <div id="indicator-inputs-wrap" class="form-group full"></div>
         </div>
 
         <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 12px;">
@@ -99,4 +96,3 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
 <script src="script.js"></script>
 </body>
 </html>
-

@@ -51,6 +51,8 @@
     }
   }
 
+  let trendChart = null;
+
   function renderDashboard() {
     const statCards = document.querySelectorAll('.stat-card');
     statCards.forEach((card) => {
@@ -98,6 +100,84 @@
           <td><span class="badge ${b.cls}">${b.label}</span></td>
         </tr>`;
     }).join('');
+
+    renderTrend();
+  }
+
+  function renderTrend() {
+    const canvas = document.getElementById('score-trend');
+    const emptyEl = document.getElementById('trend-empty');
+    if (!canvas) return;
+
+    const scores = evals.slice(0, 6)
+      .map((ev) => parseFloat(ev.score))
+      .filter((n) => Number.isFinite(n));
+
+    const avgEl = document.getElementById('trend-avg');
+    const latestEl = document.getElementById('trend-latest');
+    const metaEl = document.getElementById('trend-meta');
+
+    if (!scores.length) {
+      if (trendChart) {
+        trendChart.destroy();
+        trendChart = null;
+      }
+      if (emptyEl) emptyEl.style.display = 'flex';
+      if (avgEl) avgEl.textContent = '—';
+      if (latestEl) latestEl.textContent = '—';
+      if (metaEl) metaEl.textContent = 'No runs yet';
+      return;
+    }
+
+    if (emptyEl) emptyEl.style.display = 'none';
+    if (metaEl) metaEl.textContent = `Last ${scores.length} runs`;
+
+    const latest = scores[0];
+    const avg = scores.reduce((acc, n) => acc + n, 0) / scores.length;
+    if (avgEl) avgEl.textContent = avg.toFixed(1);
+    if (latestEl) latestEl.textContent = latest.toFixed(1);
+
+    if (!window.Chart) {
+      if (emptyEl) {
+        emptyEl.style.display = 'flex';
+        emptyEl.textContent = 'Chart library not loaded.';
+      }
+      return;
+    }
+
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#4c6ef5';
+    const chartScores = [...scores].reverse();
+    const labels = evals.slice(0, chartScores.length)
+      .map((ev) => ev.evaluationDate || ev.runId || '')
+      .reverse();
+
+    if (trendChart) trendChart.destroy();
+
+    trendChart = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data: chartScores,
+          borderColor: accent,
+          backgroundColor: `${accent}33`,
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3,
+          pointHoverRadius: 4,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+        scales: {
+          x: { display: false },
+          y: { display: false, min: 0, max: 100 },
+        },
+      },
+    });
   }
 
   if (onPage('dashboard')) {

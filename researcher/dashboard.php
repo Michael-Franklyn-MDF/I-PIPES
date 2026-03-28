@@ -60,6 +60,23 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       </div>
     </div>
 
+    <div class="card chart-card">
+      <div class="section-header">
+        <div class="section-title">Score trend</div>
+        <div class="section-meta" id="trend-meta">Last 6 runs</div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-canvas">
+          <canvas id="score-trend" aria-label="Score trend"></canvas>
+          <div class="chart-empty" id="trend-empty">No evaluations yet.</div>
+        </div>
+        <div class="chart-legend">
+          <div><span class="legend-dot"></span>Avg: <span id="trend-avg">—</span></div>
+          <div>Latest: <span id="trend-latest">—</span></div>
+        </div>
+      </div>
+    </div>
+
     <div class="two-col">
       <div class="card">
         <div class="section-header">
@@ -124,6 +141,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </div>
   </main>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

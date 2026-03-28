@@ -81,7 +81,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <th>Score bar</th>
             </tr>
             </thead>
-            <tbody id="results-tbody">
+            <tbody id="results-tbody-dimensions">
             <tr>
               <td>Access &amp; Infrastructure</td>
               <td>78.2</td>
@@ -145,7 +145,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             <th>Band</th>
           </tr>
           </thead>
-          <tbody id="results-tbody">
+          <tbody id="results-tbody-runs">
           <tr>
             <td>EV-2026-012</td>
             <td>National ICT Policy 2012</td>
@@ -179,4 +179,3 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
 <script src="script.js"></script>
 </body>
 </html>
-

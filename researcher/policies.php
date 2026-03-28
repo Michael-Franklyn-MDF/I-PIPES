@@ -51,7 +51,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </div>
   </main>
 </div>
-<script>window.POLICIES_API_PATH = '../../api/get_policies.php'; window.IS_ADMIN = false;</script>
+<script>window.POLICIES_API_PATH = '../api/get_policies.php'; window.IS_ADMIN = false;</script>
 <script src="../assets/policies.js"></script>
 </body>
 </html>

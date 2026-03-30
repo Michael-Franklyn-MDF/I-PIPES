@@ -22,7 +22,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       <a href="history.php"     class="nav-item"><span class="nav-icon">▪</span> History</a>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-user-name">Policy Analyst</div>
+      <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
       <div class="sidebar-user-role">Analyst</div>
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>

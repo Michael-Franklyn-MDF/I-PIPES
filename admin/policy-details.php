@@ -28,7 +28,7 @@ if (!isset($_SESSION['role'])) {
         <a href="user.php" class="nav-item"><span class="nav-icon">▪</span> Users</a>
       </nav>
       <div class="sidebar-footer">
-        <div class="sidebar-user-name">Michael Franklyn</div>
+        <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
         <div class="sidebar-user-role">Admin</div>
         <a href="../logout.php" class="logout-link">Log out</a>
       </div>

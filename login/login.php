@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user) {
         $_SESSION['userID']   = $user['userID'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['full_name'] = $user['full_name'] ?? $user['fullName'] ?? null;
         $_SESSION['role']     = $user['role'];
 
         // Redirect based on role

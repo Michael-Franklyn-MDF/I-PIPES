@@ -223,6 +223,24 @@
   if (onPage('evaluation')) {
     const policySelect = document.getElementById('policy');
     const indicatorWrap = document.getElementById('indicator-inputs-wrap');
+    const evalForm = document.getElementById('form-run-evaluation');
+
+    const showIndicatorError = (msg) => {
+      if (!indicatorWrap) return;
+      let msgEl = indicatorWrap.querySelector('.error-msg');
+      if (!msgEl) {
+        msgEl = document.createElement('div');
+        msgEl.className = 'error-msg';
+        indicatorWrap.prepend(msgEl);
+      }
+      msgEl.textContent = msg;
+    };
+
+    const clearIndicatorError = () => {
+      if (!indicatorWrap) return;
+      const msgEl = indicatorWrap.querySelector('.error-msg');
+      if (msgEl) msgEl.remove();
+    };
 
     fetchPolicies().then(() => {
       if (!policySelect) return;
@@ -294,6 +312,81 @@
     policySelect?.addEventListener('change', (e) => {
       loadIndicators(e.target.value);
     });
+
+    evalForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const policyVal = document.getElementById('policy')?.value || '';
+      const periodVal = document.getElementById('period')?.value || '';
+      const datasetVal = document.getElementById('dataset')?.value || '';
+      const runTypeVal = document.getElementById('run-type')?.value || '';
+
+      if (!policyVal || !periodVal || !datasetVal || !runTypeVal) {
+        showIndicatorError('Please fill in all required fields before running.');
+        return;
+      }
+
+      const scoreInputs = document.querySelectorAll('[data-indicator-id]');
+      if (!scoreInputs.length) {
+        showIndicatorError('Please select a policy with indicators before running.');
+        return;
+      }
+
+      const indicatorScores = [];
+      let hasBlank = false;
+      scoreInputs.forEach((input) => {
+        const val = input.value.trim();
+        if (val === '') { hasBlank = true; return; }
+        indicatorScores.push({
+          indicatorID: parseInt(input.dataset.indicatorId, 10),
+          score: parseFloat(val),
+        });
+      });
+
+      if (hasBlank) {
+        showIndicatorError('Please enter a score for every indicator.');
+        return;
+      }
+
+      clearIndicatorError();
+
+      await fetchEvals();
+      let next = 1;
+      if (evals.length) {
+        const nums = evals
+          .map((ev) => parseInt((ev.runId || '').split('-')[2] || '0', 10))
+          .filter((n) => !isNaN(n));
+        if (nums.length) next = Math.max(...nums) + 1;
+      }
+      const year = new Date().getFullYear();
+      const runId = `EV-${year}-${String(next).padStart(3, '0')}`;
+
+      const formData = new FormData();
+      formData.append('policy_id', policyVal);
+      formData.append('period', periodVal);
+      formData.append('dataset', datasetVal);
+      formData.append('run_type', runTypeVal);
+      formData.append('notes', document.getElementById('notes')?.value || '');
+      formData.append('run_id', runId);
+      formData.append('indicator_scores', JSON.stringify(indicatorScores));
+
+      const submitBtn = evalForm.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('../api/add_evaluation.php', { method: 'POST', body: formData });
+        const json = await res.json();
+        if (json.success) {
+          window.location.href = `results.php?highlight=${encodeURIComponent(runId)}`;
+        } else {
+          showIndicatorError(json.error || 'Submission failed.');
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      } catch (err) {
+        showIndicatorError('Network error. Please try again.');
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
   }
 
   if (onPage('history')) {
@@ -304,7 +397,7 @@
     fetchEvals().then(() => renderResultsRuns());
   }
 
-  const forms = Array.from(document.querySelectorAll('form'));
+  const forms = Array.from(document.querySelectorAll('form:not(#form-run-evaluation)'));
   for (const form of forms) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();

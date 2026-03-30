@@ -37,7 +37,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </div>
 
     <div class="card">
-      <form>
+      <form id="form-run-evaluation">
         <div class="form-grid">
           <div class="form-group">
             <label for="policy">Policy</label>

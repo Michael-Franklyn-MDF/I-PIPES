@@ -40,7 +40,7 @@
     const s = parseFloat(score);
     if (s >= 70) return { label: 'High',     cls: 'badge-high'     };
     if (s >= 50) return { label: 'Moderate', cls: 'badge-moderate' };
-    return               { label: 'Low',      cls: 'badge-low'      };
+    return { label: 'Low',      cls: 'badge-low'      };
   }
 
   // ─── Page detection ───────────────────────────────────────────────────────────
@@ -349,10 +349,10 @@
     } catch (err) { console.error(err); }
   });
 
-  // ─── Evaluation page ──────────────────────────────────────────────────────────
+  // Evaluation page.
   const evalForm = document.getElementById('form-run-evaluation');
   if (evalForm) {
-    // ── Load policies into the policy selector ────────────────────────────────
+    // Load policies into the policy selector.
     fetchPolicies().then(() => {
       const sel = document.getElementById('policy');
       if (!sel) return;
@@ -370,7 +370,7 @@
       if (policyTarget) loadIndicatorInputs(policyTarget);
     });
 
-    // ── When the policy dropdown changes, load that policy's indicators ───────
+    // When the policy dropdown changes, load that policy's indicators.
     document.getElementById('policy')?.addEventListener('change', (e) => {
       loadIndicatorInputs(e.target.value);
     });
@@ -497,10 +497,7 @@
     });
   }
 
-  // ─── Results page ─────────────────────────────────────────────────────────────
-  // FIX: results.php has two tbodies – use distinct IDs:
-  //   #results-tbody-dimensions  (dimension breakdown card)
-  //   #results-tbody-runs        (all evaluation runs card)
+  // Results page.
   const allRunsTbody = document.getElementById('results-tbody-runs');
 
   async function fetchEvals() {
@@ -511,7 +508,7 @@
     } catch (e) { console.error('fetchEvals:', e); }
   }
 
-  // ─── History page ────────────────────────────────────────────────────────────
+  // History page.
   const historyTbody = document.getElementById('history-evals-tbody');
 
   function renderHistory() {
@@ -604,8 +601,7 @@
     });
   }
 
-  // ─── Dashboard stats ──────────────────────────────────────────────────────────
-  // FIX: was checking for 'dashboard.html' — now checks for 'dashboard'
+  // Dashboard stats.
   if (onPage('dashboard')) {
     Promise.all([fetchPolicies(), fetchEvals(), fetchUsers()]).then(() => {
       const statCards = document.querySelectorAll('.stat-card');
@@ -646,7 +642,7 @@
     });
   }
 
-  // ─── Suppress unhandled form submits ─────────────────────────────────────────
+  // Suppress unhandled form submits.
   document.querySelectorAll(
     'form:not(#form-add-policy):not(#form-add-user):not(#form-run-evaluation):not(#form-reset-password)'
   ).forEach((f) => f.addEventListener('submit', (e) => e.preventDefault()));

@@ -31,7 +31,7 @@ if (!is_numeric($rawPolicyId) || (int)$rawPolicyId <= 0) {
 
 $policyID = (int)$rawPolicyId;
 
-// Indicator scores sent as JSON array: [{indicatorID, score}, ...]
+// Indicator scores sent as JSON array
 $indicatorScores = json_decode($data['indicator_scores'] ?? '[]', true);
 if (!is_array($indicatorScores) || count($indicatorScores) < 1) {
     echo json_encode(['success' => false, 'error' => 'No indicator scores provided']);

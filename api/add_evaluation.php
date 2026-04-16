@@ -1,6 +1,4 @@
 <?php
-// Create a new evaluation run, calculate the weighted score, and persist both
-// the run summary and its per-indicator breakdown.
 session_start();
 header('Content-Type: application/json');
 require '../config/db.php';
@@ -41,8 +39,6 @@ if (!is_array($indicatorScores) || count($indicatorScores) < 1) {
 }
 
 function generateNextRunId(PDO $pdo): string {
-    // Run IDs are global across all roles, so the next value must be resolved
-    // from the whole Evaluations table rather than a user-scoped subset.
     $year = date('Y');
     $stmt = $pdo->query("SELECT runId FROM Evaluations ORDER BY createdAt DESC, runId DESC");
     $runIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -58,8 +54,6 @@ function generateNextRunId(PDO $pdo): string {
 }
 
 try {
-    // Accept a client-supplied run ID when available, but fall back to a
-    // server-generated value whenever it is missing or already taken.
     if ($runId === '') {
         $runId = generateNextRunId($pdo);
     } else {

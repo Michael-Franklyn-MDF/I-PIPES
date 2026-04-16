@@ -15,11 +15,11 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php"   class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.php"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.php"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.php"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.php"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="dashboard.php" class="nav-item active"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php" class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.php" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.php" class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php" class="nav-item"><span class="nav-icon">▪</span> History</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
@@ -27,7 +27,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
-
   <main class="main-content">
     <div class="welcome-banner">
       <div>
@@ -35,7 +34,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <p>Here’s an overview of your recent evaluation work.</p>
       </div>
     </div>
-
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-label">Your evaluations</div>
@@ -58,7 +56,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <div class="stat-sub">—</div>
       </div>
     </div>
-
     <div class="card chart-card">
       <div class="section-header">
         <div class="section-title">Score trend</div>
@@ -75,7 +72,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         </div>
       </div>
     </div>
-
     <div class="two-col">
       <div class="card">
         <div class="section-header">
@@ -95,7 +91,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           </table>
         </div>
       </div>
-
       <div class="card">
         <div class="section-header">
           <div class="section-title">Quick actions</div>

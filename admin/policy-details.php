@@ -7,14 +7,12 @@ if (!isset($_SESSION['role'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I-PIPES — Policy Details</title>
   <link rel="stylesheet" href="../assets/global.css">
 </head>
-
 <body>
   <div class="app-layout">
     <aside class="sidebar">
@@ -33,7 +31,6 @@ if (!isset($_SESSION['role'])) {
         <a href="../logout.php" class="logout-link">Log out</a>
       </div>
     </aside>
-
     <main class="main-content">
       <div class="page-header">
         <div>
@@ -42,11 +39,9 @@ if (!isset($_SESSION['role'])) {
         </div>
         <a href="policies.php" class="btn btn-secondary">← Back to Policies</a>
       </div>
-
       <div id="not-found-msg" style="display:none;" class="card">
         <p style="color:var(--muted);text-align:center;padding:32px;">Policy not found.</p>
       </div>
-
       <div id="policy-content">
         <div class="two-col" style="margin-bottom:20px;">
           <div class="card">
@@ -61,7 +56,6 @@ if (!isset($_SESSION['role'])) {
               <div><strong>Indicators:</strong> <span id="di-indicators">—</span></div>
             </div>
           </div>
-
           <div class="card">
             <div class="section-header">
               <div class="section-title">Quick Actions</div>
@@ -72,7 +66,6 @@ if (!isset($_SESSION['role'])) {
             </div>
           </div>
         </div>
-
         <div class="card">
           <div class="section-header">
             <div class="section-title">Evaluation History</div>
@@ -101,9 +94,7 @@ if (!isset($_SESSION['role'])) {
       </div>
     </main>
   </div>
-
   <script>
-    // FIX: replaced localStorage approach with real API calls
     (async () => {
       const escapeHtml = (v) =>
         String(v ?? '')
@@ -130,8 +121,6 @@ if (!isset($_SESSION['role'])) {
         const year = date.getFullYear();
         return `${day} ${month} ${year}`;
       };
-
-      // ── Fetch all policies and find the one we need ──────────────────────────────
       let p = null;
       try {
         const res = await fetch('../api/get_policies.php');
@@ -147,8 +136,6 @@ if (!isset($_SESSION['role'])) {
         document.getElementById('not-found-msg').style.display = '';
         return;
       }
-
-      // ── Populate header ──────────────────────────────────────────────────────────
       const statusMap = {
         active:   { cls: 'badge-active',  label: 'Active' },
         review:   { cls: 'badge-review',  label: 'Review' },
@@ -158,7 +145,6 @@ if (!isset($_SESSION['role'])) {
         cls:   statusMap[p.status]?.cls   || 'badge-active',
         label: statusMap[p.status]?.label || 'Active',
       };
-
       document.title = `I-PIPES — ${p.policyName || 'Policy Details'}`;
       document.getElementById('detail-name').textContent = p.policyName || 'Policy';
       document.getElementById('detail-meta').textContent = `${p.targetArea || '—'} · ${formatDate(p.dateCreated)}`;
@@ -170,7 +156,6 @@ if (!isset($_SESSION['role'])) {
         `<span class="badge ${sb.cls}">${escapeHtml(sb.label)}</span>`;
       document.getElementById('run-eval-link').href =
         `evaluation.php?id=${encodeURIComponent(p.policyID)}`;
-
       try {
         const res = await fetch(`../api/get_indicators.php?policy_id=${encodeURIComponent(policyId)}`);
         const json = await res.json();
@@ -180,8 +165,6 @@ if (!isset($_SESSION['role'])) {
         console.error(e);
         document.getElementById('di-indicators').textContent = '—';
       }
-
-      // ── Fetch evaluations for this policy ────────────────────────────────────────
       let policyEvals = [];
       try {
         const res = await fetch('../api/get_evaluations.php');
@@ -197,7 +180,6 @@ if (!isset($_SESSION['role'])) {
             });
         }
       } catch (e) { console.error(e); }
-
       const tbody = document.getElementById('detail-evals-tbody');
       if (!policyEvals.length) {
         tbody.innerHTML =
@@ -206,13 +188,11 @@ if (!isset($_SESSION['role'])) {
        </td></tr>`;
         return;
       }
-
       const bandMap = {
         high: { label: 'High', cls: 'badge-high' },
         moderate: { label: 'Moderate', cls: 'badge-moderate' },
         low: { label: 'Low', cls: 'badge-low' },
       };
-
       tbody.innerHTML = policyEvals.map((ev) => {
         const score = parseFloat(ev.score);
         const band = score >= 70 ? 'high' : score >= 50 ? 'moderate' : 'low';
@@ -230,5 +210,4 @@ if (!isset($_SESSION['role'])) {
     })();
   </script>
 </body>
-
 </html>

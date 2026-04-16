@@ -15,11 +15,11 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.php"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.php"  class="nav-item active"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.php"     class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.php"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="dashboard.php" class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php" class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.php" class="nav-item active"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.php" class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php" class="nav-item"><span class="nav-icon">▪</span> History</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
@@ -27,7 +27,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
-
   <main class="main-content">
     <div class="page-header">
       <div>
@@ -35,7 +34,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <div class="page-subtitle">Configure and launch a new evaluation for an assigned policy.</div>
       </div>
     </div>
-
     <div class="card">
       <form id="form-run-evaluation">
         <div class="form-grid">
@@ -45,7 +43,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option value="">Select a policy</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="period">Evaluation period</label>
             <select id="period" name="period">
@@ -56,7 +53,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option>Q4 2024</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="dataset">Data source</label>
             <select id="dataset" name="dataset">
@@ -67,7 +63,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option>Custom uploaded dataset</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="run-type">Run type</label>
             <select id="run-type" name="run_type">
@@ -77,14 +72,12 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option>Sensitivity analysis</option>
             </select>
           </div>
-
           <div class="form-group full">
             <label for="notes">Evaluation notes</label>
             <textarea id="notes" name="notes" rows="4" placeholder="Capture assumptions, caveats, and questions for reviewers."></textarea>
           </div>
           <div id="indicator-inputs-wrap" class="form-group full"></div>
         </div>
-
         <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 12px;">
           <button type="reset" class="btn btn-secondary">Clear form</button>
           <button type="submit" class="btn btn-primary">Run evaluation</button>

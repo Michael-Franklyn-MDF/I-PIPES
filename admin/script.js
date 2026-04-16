@@ -11,7 +11,7 @@
   let users    = [];
   let evals    = [];
 
-  // ─── Modal helpers ────────────────────────────────────────────────────────────
+  // Modal helpers
   function openModal(id) {
     const m = document.getElementById(id);
     if (!m) return;
@@ -35,7 +35,7 @@
       document.querySelectorAll('.modal-backdrop.modal-visible').forEach((m) => closeModal(m.id));
   });
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────────
+  // Helpers
   function bandFor(score) {
     const s = parseFloat(score);
     if (s >= 70) return { label: 'High',     cls: 'badge-high'     };
@@ -107,11 +107,11 @@
     }).join('');
   }
 
-  // ─── Page detection ───────────────────────────────────────────────────────────
+  // Page detection
   const path = window.location.pathname;
   const onPage = (name) => path.includes(name);
 
-  // ─── Policies page ────────────────────────────────────────────────────────────
+  // Policies page
   const policiesTbody = document.getElementById('policies-tbody');
 
   async function fetchPolicies() {
@@ -167,7 +167,7 @@
   document.querySelectorAll('.cancel-policy').forEach((btn) =>
     btn.addEventListener('click', () => closeModal('modal-add-policy'))
   );
-  // ── Indicator row builder (Add Policy modal) ──────────────────────────────
+  // Indicator row builder 
   function makeIndicatorRow(index) {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;gap:8px;align-items:center;';
@@ -270,7 +270,7 @@
     finally { btn.disabled = false; }
   });
 
-  // ─── Users page ───────────────────────────────────────────────────────────────
+  // Users page
   const usersTbody = document.getElementById('users-tbody');
 
   async function fetchUsers() {

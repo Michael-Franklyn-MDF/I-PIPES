@@ -6,7 +6,7 @@ if (urlError) {
   if (errorMsgEl) errorMsgEl.textContent = urlError;
 }
 
-// --- DOM ---
+// DOM 
 const form = document.getElementById('signup-form');
 const fullNameInput = document.getElementById('full-name');
 const emailInput = document.getElementById('email');
@@ -32,7 +32,7 @@ for (const f of fields) {
   if (!f.input) throw new Error(`Signup input not found for: ${f.key}`);
 }
 
-// --- Validation helpers ---
+// Validation helpers
 function required(value) {
   return value.trim().length > 0;
 }
@@ -78,7 +78,7 @@ function validateField(key) {
   }
 }
 
-// --- Global messages ---
+// Global messages
 function showError(message) {
   errorMsgEl.textContent = message || '';
   successMsgEl.textContent = '';
@@ -94,7 +94,7 @@ function clearMessages() {
   successMsgEl.textContent = '';
 }
 
-// --- Field UI ---
+// Field UI
 function setFieldState(inputEl, state) {
   inputEl.classList.remove('valid', 'invalid');
   if (state === 'valid') inputEl.classList.add('valid');
@@ -135,7 +135,7 @@ function onInput(key) {
   }
 }
 
-// --- Events ---
+// Events
 for (const f of fields) {
   f.input.addEventListener('blur', () => onBlur(f.key));
   f.input.addEventListener('input', () => onInput(f.key));

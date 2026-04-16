@@ -64,7 +64,7 @@
 
         var actionsCell = isAdmin
           ? '<td>' +
-              '<button class="btn btn-secondary btn-sm" data-action="edit" data-policy-id="' + id + '">Edit</button> ' +
+              '<button class="btn btn-secondary btn-sm" data-action="edit" data-policy-id="' + id + '">View Details</button> ' +
               '<button class="btn btn-danger btn-sm" data-action="delete" data-policy-id="' + id + '">Delete</button>' +
             '</td>'
           : '';

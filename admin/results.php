@@ -18,12 +18,12 @@ if (!isset($_SESSION['role'])) {
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.php"   class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="dashboard.php" class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php" class="nav-item"><span class="nav-icon">▪</span> Policies</a>
       <a href="evaluation.php" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.php"    class="nav-item active"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.php"    class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.php"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="results.php" class="nav-item active"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php" class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.php" class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
@@ -31,7 +31,6 @@ if (!isset($_SESSION['role'])) {
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
-
   <main class="main-content">
     <div class="page-header">
       <div>
@@ -40,7 +39,6 @@ if (!isset($_SESSION['role'])) {
       </div>
       <button id="btn-export-csv" class="btn btn-secondary">Export CSV</button>
     </div>
-
     <div class="two-col" style="margin-bottom:20px;">
       <div class="card">
         <div class="section-header">
@@ -64,7 +62,6 @@ if (!isset($_SESSION['role'])) {
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="section-header">
           <div class="section-title">Dimension breakdown</div>
@@ -79,7 +76,6 @@ if (!isset($_SESSION['role'])) {
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="section-header">
         <div class="section-title">All evaluation runs</div>
@@ -91,7 +87,6 @@ if (!isset($_SESSION['role'])) {
               <th>Run ID</th><th>Policy</th><th>Period</th><th>Run Type</th><th>Score</th><th>Band</th><th>Date</th>
             </tr>
           </thead>
-          <!-- FIX: unique ID targeted by script.js as 'results-tbody-runs' -->
           <tbody id="results-tbody-runs"></tbody>
         </table>
       </div>

@@ -15,11 +15,11 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php"   class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.php"    class="nav-item"><span class="nav-icon">▪</span> Policies</a>
-      <a href="evaluation.php"  class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.php"     class="nav-item active"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.php"     class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="dashboard.php" class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php" class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="evaluation.php" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
+      <a href="results.php" class="nav-item active"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php" class="nav-item"><span class="nav-icon">▪</span> History</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
@@ -27,7 +27,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
-
   <main class="main-content">
     <div class="page-header">
       <div>
@@ -36,7 +35,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       </div>
       <button id="export-csv-btn" class="btn btn-secondary">Export summary</button>
     </div>
-
     <div class="two-col" style="margin-bottom: 20px;">
       <div class="card">
         <div class="section-header">
@@ -47,7 +45,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           <div id="latest-policy-name" style="font-size:17px; font-weight:600; margin-top:4px;">—</div>
           <div id="latest-policy-meta" style="font-size:13px; color: var(--muted); margin-top:2px;">—</div>
         </div>
-
         <div class="three-col">
           <div>
             <div class="stat-label">Overall score</div>
@@ -66,7 +63,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="section-header">
           <div class="section-title">Dimension breakdown</div>
@@ -86,7 +82,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="section-header">
         <div class="section-title">Your evaluation runs</div>

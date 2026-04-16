@@ -5,7 +5,7 @@ if (urlError) {
     showError(urlError);
 }
 
-// --- DOM ---
+// DOM 
 const form = document.getElementById('login-form');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
@@ -24,7 +24,7 @@ if (!errorMessageEl) {
   throw new Error('Login error container not found: #error-message');
 }
 
-// --- Validation helpers ---
+// Validation helpers
 function required(value) {
   return value.trim().length > 0;
 }
@@ -44,7 +44,7 @@ function validateField(key) {
   }
 }
 
-// --- UI helpers ---
+// UI helpers
 function showError(message) {
   errorMessageEl.textContent = message || '';
 }
@@ -78,7 +78,7 @@ function onInput(key) {
   validateAndMark(key);
 }
 
-// --- Events ---
+// Events
 usernameInput.addEventListener('blur', () => onBlur('username'));
 usernameInput.addEventListener('input', () => onInput('username'));
 

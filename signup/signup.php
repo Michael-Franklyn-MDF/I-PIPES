@@ -14,7 +14,7 @@ $username        = trim((string)($_POST['username']         ?? ''));
 $password        = (string)($_POST['password']              ?? '');
 $confirmPassword = (string)($_POST['confirm_password']      ?? '');
 
-// ── Validation ────────────────────────────────────────────────────────────────
+// Validation 
 if ($fullName === '' || $email === '' || $username === '' || $password === '' || $confirmPassword === '') {
     header('Location: index.html?error=' . urlencode('Please fill in all fields'));
     exit;
@@ -36,7 +36,7 @@ if ($password !== $confirmPassword) {
     exit;
 }
 
-// ── Check for duplicates ──────────────────────────────────────────────────────
+// Check for duplicates 
 try {
     $chkUser = $pdo->prepare("SELECT userID FROM Users WHERE username = ?");
     $chkUser->execute([$username]);
@@ -52,7 +52,7 @@ try {
         exit;
     }
 
-    // ── Insert new user ───────────────────────────────────────────────────────
+    // Insert new user 
     $hash = md5($password);
     $stmt = $pdo->prepare(
         "INSERT INTO Users (full_name, email, username, password, role, status)

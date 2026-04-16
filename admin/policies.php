@@ -15,12 +15,12 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.php"   class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
+      <a href="dashboard.php" class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php" class="nav-item active"><span class="nav-icon">▪</span> Policies</a>
       <a href="evaluation.php" class="nav-item"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.php"    class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.php"    class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.php"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="results.php" class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php" class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.php" class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
@@ -28,7 +28,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
-
   <main class="main-content">
     <div class="page-header">
       <div>
@@ -55,8 +54,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </div>
   </main>
 </div>
-
-<!-- Add Policy Modal -->
 <div id="modal-add-policy" class="modal-backdrop" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modal-header">
@@ -111,7 +108,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               — min. 3, weights must sum to 100%
             </span>
           </label>
-
           <div id="indicator-rows" style="display:flex; flex-direction:column; gap:8px; margin-top:6px;"></div>
 
           <button type="button" id="btn-add-indicator"
@@ -122,7 +118,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             Total weight: <strong id="weight-total">0</strong>%
           </div>
         </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary cancel-policy">Cancel</button>
@@ -131,7 +126,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </form>
   </div>
 </div>
-
 <script>window.POLICIES_API_PATH = '../api/get_policies.php'; window.IS_ADMIN = true;</script>
 <script src="../assets/policies.js"></script>
 </body>

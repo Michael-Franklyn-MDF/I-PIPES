@@ -15,12 +15,12 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   <aside class="sidebar">
     <div class="sidebar-logo">I-PIPES <span>Policy Evaluation</span></div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php"  class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
-      <a href="policies.php"   class="nav-item"><span class="nav-icon">▪</span> Policies</a>
+      <a href="dashboard.php" class="nav-item"><span class="nav-icon">▪</span> Dashboard</a>
+      <a href="policies.php" class="nav-item"><span class="nav-icon">▪</span> Policies</a>
       <a href="evaluation.php" class="nav-item active"><span class="nav-icon">▪</span> Evaluation</a>
-      <a href="results.php"    class="nav-item"><span class="nav-icon">▪</span> Results</a>
-      <a href="history.php"    class="nav-item"><span class="nav-icon">▪</span> History</a>
-      <a href="user.php"       class="nav-item"><span class="nav-icon">▪</span> Users</a>
+      <a href="results.php" class="nav-item"><span class="nav-icon">▪</span> Results</a>
+      <a href="history.php" class="nav-item"><span class="nav-icon">▪</span> History</a>
+      <a href="user.php" class="nav-item"><span class="nav-icon">▪</span> Users</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-user-name"><?php echo htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username'] ?? 'User'); ?></div>
@@ -28,7 +28,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
       <a href="../logout.php" class="logout-link">Log out</a>
     </div>
   </aside>
-
   <main class="main-content">
     <div class="page-header">
       <div>
@@ -36,7 +35,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <div class="page-subtitle">Configure inputs and trigger a new policy evaluation.</div>
       </div>
     </div>
-
     <div class="card">
       <form id="form-run-evaluation">
         <div class="form-grid">
@@ -50,7 +48,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option value="Cybersecurity Framework">Cybersecurity Framework</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="period">Evaluation Period <span style="color:var(--danger)">*</span></label>
             <select id="period" name="period">
@@ -62,7 +59,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option value="Q3 2024">Q3 2024</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="dataset">Data Source <span style="color:var(--danger)">*</span></label>
             <select id="dataset" name="dataset">
@@ -73,7 +69,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option value="Custom uploaded dataset">Custom uploaded dataset</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="run_type">Run Type <span style="color:var(--danger)">*</span></label>
             <select id="run_type" name="run_type">
@@ -83,19 +78,15 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <option value="Sensitivity analysis">Sensitivity analysis</option>
             </select>
           </div>
-
           <div class="form-group full">
             <label for="notes">Evaluation Notes</label>
             <textarea id="notes" name="notes" rows="4" placeholder="Optional context, assumptions, or questions for reviewers."></textarea>
           </div>
-
           <div class="form-group full" id="indicator-inputs-wrap" style="margin-top:4px;">
             <!-- Indicator score inputs load here when a policy is selected -->
           </div>
         </div>
-
         <div id="eval-error" class="error-msg"></div>
-
         <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:4px;">
           <button type="reset" class="btn btn-secondary">Clear form</button>
           <button type="submit" class="btn btn-primary">Run evaluation</button>

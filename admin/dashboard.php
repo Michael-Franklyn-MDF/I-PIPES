@@ -48,7 +48,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <div class="stat-sub">All time</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Average Score</div>
+        <div class="stat-label">Latest Score</div>
         <div class="stat-value">64.3</div>
         <div class="stat-sub">Out of 100</div>
       </div>

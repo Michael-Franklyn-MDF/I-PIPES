@@ -54,7 +54,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
           </div>
           <div>
             <div class="stat-label">Confidence</div>
-            <div class="stat-value">High</div>
+            <div id="latest-band" class="stat-value">High</div>
             <div class="stat-sub">Model certainty</div>
           </div>
           <div>

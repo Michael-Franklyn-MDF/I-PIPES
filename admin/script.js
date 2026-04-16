@@ -43,6 +43,70 @@
     return { label: 'Low',      cls: 'badge-low'      };
   }
 
+  function parseEvaluationTime(ev) {
+    const createdAt = Date.parse(ev?.createdAt || '');
+    if (Number.isFinite(createdAt)) return createdAt;
+
+    const rawDate = String(ev?.evaluationDate || '').trim();
+    const parsedDate = Date.parse(rawDate);
+    if (Number.isFinite(parsedDate)) return parsedDate;
+
+    const match = rawDate.match(/^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/);
+    if (match) {
+      const [, day, month, year] = match;
+      const manualDate = Date.parse(`${day} ${month} ${year}`);
+      if (Number.isFinite(manualDate)) return manualDate;
+    }
+
+    return 0;
+  }
+
+  function sortEvals(list) {
+    return [...list].sort((a, b) => {
+      const timeDiff = parseEvaluationTime(b) - parseEvaluationTime(a);
+      if (timeDiff !== 0) return timeDiff;
+      return String(b?.runId || '').localeCompare(String(a?.runId || ''), undefined, { numeric: true });
+    });
+  }
+
+  function latestEval() {
+    return evals[0] || null;
+  }
+
+  async function fetchBreakdown(runId) {
+    if (!runId) return [];
+    try {
+      const res = await fetch(`../api/get_evaluation_breakdown.php?run_id=${encodeURIComponent(runId)}`);
+      const json = await res.json();
+      return json.success && Array.isArray(json.data) ? json.data : [];
+    } catch (e) {
+      console.error('fetchBreakdown:', e);
+      return [];
+    }
+  }
+
+  function renderBreakdownRows(rows, tbody) {
+    if (!tbody) return;
+
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:32px;">No breakdown available for the latest evaluation.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = rows.map((row) => {
+      const b = bandFor(row.score);
+      const width = Math.max(0, Math.min(100, parseFloat(row.score || 0)));
+      const fillCls = b.cls.replace('badge-', 'score-');
+      return `
+        <tr>
+          <td>${escapeHtml(row.dimension || '—')}</td>
+          <td>${escapeHtml(Number(width).toFixed(1))}</td>
+          <td><span class="badge ${b.cls}">${b.label}</span></td>
+          <td><span class="score-bar-wrap"><span class="score-bar-fill ${fillCls}" style="width:${width}%"></span></span></td>
+        </tr>`;
+    }).join('');
+  }
+
   // ─── Page detection ───────────────────────────────────────────────────────────
   const path = window.location.pathname;
   const onPage = (name) => path.includes(name);
@@ -504,7 +568,7 @@
     try {
       const res  = await fetch('../api/get_evaluations.php');
       const json = await res.json();
-      if (json.success) evals = json.data;
+      if (json.success) evals = sortEvals(json.data || []);
     } catch (e) { console.error('fetchEvals:', e); }
   }
 
@@ -537,12 +601,19 @@
     fetchEvals().then(() => renderHistory());
   }
 
-  function renderEvals() {
+  async function renderEvals() {
     if (!allRunsTbody) return;
     const highlight = new URLSearchParams(window.location.search).get('highlight');
+    const breakdownTbody = document.getElementById('results-tbody-dimensions');
+    const el = (id) => document.getElementById(id);
 
     if (!evals.length) {
       allRunsTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px;">No evaluations yet.</td></tr>`;
+      renderBreakdownRows([], breakdownTbody);
+      if (el('latest-policy-name'))  el('latest-policy-name').textContent = '—';
+      if (el('latest-policy-meta'))  el('latest-policy-meta').textContent = '—';
+      if (el('latest-score'))        el('latest-score').textContent = '—';
+      if (el('latest-run-type'))     el('latest-run-type').textContent = '—';
       return;
     }
 
@@ -561,12 +632,13 @@
     }).join('');
 
     // Populate "Latest evaluation summary" card
-    const latest = evals[0];
-    const el = (id) => document.getElementById(id);
+    const latest = latestEval();
     if (el('latest-policy-name'))  el('latest-policy-name').textContent  = latest.policyName    || '—';
     if (el('latest-policy-meta'))  el('latest-policy-meta').textContent  = `Run on ${latest.evaluationDate} · Using ${latest.dataset}`;
     if (el('latest-score'))        el('latest-score').textContent        = latest.score         || '—';
     if (el('latest-run-type'))     el('latest-run-type').textContent     = latest.runType       || '—';
+
+    renderBreakdownRows(await fetchBreakdown(latest.runId), breakdownTbody);
   }
 
   if (allRunsTbody) {
@@ -613,16 +685,11 @@
         if (!valEl) return;
 
         if (label.includes('policies')) {
-          valEl.textContent = policies.filter((p) => p.status === 'Active').length;
+          valEl.textContent = policies.filter((p) => String(p.status).toLowerCase() === 'active').length;
         } else if (label.includes('evaluations')) {
           valEl.textContent = evals.length;
-        } else if (label.includes('average') || label.includes('avg')) {
-          if (evals.length) {
-            const sum = evals.reduce((acc, ev) => acc + parseFloat(ev.score || 0), 0);
-            valEl.textContent = (sum / evals.length).toFixed(1);
-          } else {
-            valEl.textContent = '0.0';
-          }
+        } else if (label.includes('latest score') || label.includes('average') || label.includes('avg')) {
+          valEl.textContent = latestEval()?.score ?? '—';
         } else if (label.includes('users')) {
           valEl.textContent = users.length;
         }

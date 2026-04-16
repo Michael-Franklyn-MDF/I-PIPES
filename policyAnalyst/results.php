@@ -34,7 +34,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         <div class="page-title">Evaluation Results</div>
         <div class="page-subtitle">Explore outcomes and compare your recent evaluation runs.</div>
       </div>
-      <button class="btn btn-secondary">Export summary</button>
+      <button id="export-csv-btn" class="btn btn-secondary">Export summary</button>
     </div>
 
     <div class="two-col" style="margin-bottom: 20px;">
@@ -44,24 +44,24 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         </div>
         <div style="margin-bottom: 16px;">
           <div style="font-size:14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Policy</div>
-          <div style="font-size:17px; font-weight:600; margin-top:4px;">National ICT Policy 2012</div>
-          <div style="font-size:13px; color: var(--muted); margin-top:2px;">Run on 12 Feb 2026 • By you • Using ITU &amp; NBS datasets</div>
+          <div id="latest-policy-name" style="font-size:17px; font-weight:600; margin-top:4px;">National ICT Policy 2012</div>
+          <div id="latest-policy-meta" style="font-size:13px; color: var(--muted); margin-top:2px;">Run on 12 Feb 2026 • By you • Using ITU &amp; NBS datasets</div>
         </div>
 
         <div class="three-col">
           <div>
             <div class="stat-label">Overall score</div>
-            <div class="stat-value">71.4</div>
+            <div id="latest-score" class="stat-value">71.4</div>
             <div class="stat-sub">out of 100</div>
           </div>
           <div>
             <div class="stat-label">Confidence level</div>
-            <div class="stat-value">High</div>
+            <div id="latest-band" class="stat-value">High</div>
             <div class="stat-sub">Model certainty</div>
           </div>
           <div>
             <div class="stat-label">Run type</div>
-            <div class="stat-value">Full</div>
+            <div id="latest-run-type" class="stat-value">Full</div>
             <div class="stat-sub">4 dimensions</div>
           </div>
         </div>

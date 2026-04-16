@@ -272,6 +272,7 @@
       if (el('latest-score')) el('latest-score').textContent = '—';
       if (el('latest-band')) el('latest-band').textContent = '—';
       if (el('latest-run-type')) el('latest-run-type').textContent = '—';
+      if (el('latest-dimension-count')) el('latest-dimension-count').textContent = '—';
       return;
     }
 
@@ -296,7 +297,11 @@
       if (el('latest-score')) el('latest-score').textContent = latest.score ?? '—';
       if (el('latest-band')) el('latest-band').textContent = bandFor(latest.score).label;
       if (el('latest-run-type')) el('latest-run-type').textContent = latest.runType ?? '—';
-      renderBreakdownRows(await fetchBreakdown(latest.runId));
+      const breakdownRows = await fetchBreakdown(latest.runId);
+      renderBreakdownRows(breakdownRows);
+      if (el('latest-dimension-count')) {
+        el('latest-dimension-count').textContent = breakdownRows.length === 1 ? '1 dimension' : `${breakdownRows.length} dimensions`;
+      }
     }
   }
 
@@ -434,24 +439,12 @@
 
       clearIndicatorError();
 
-      await fetchEvals();
-      let next = 1;
-      if (evals.length) {
-        const nums = evals
-          .map((ev) => parseInt((ev.runId || '').split('-')[2] || '0', 10))
-          .filter((n) => !isNaN(n));
-        if (nums.length) next = Math.max(...nums) + 1;
-      }
-      const year = new Date().getFullYear();
-      const runId = `EV-${year}-${String(next).padStart(3, '0')}`;
-
       const formData = new FormData();
       formData.append('policy_id', policyVal);
       formData.append('period', periodVal);
       formData.append('dataset', datasetVal);
       formData.append('run_type', runTypeVal);
       formData.append('notes', document.getElementById('notes')?.value || '');
-      formData.append('run_id', runId);
       formData.append('indicator_scores', JSON.stringify(indicatorScores));
 
       const submitBtn = evalForm.querySelector('button[type="submit"]');
@@ -461,7 +454,8 @@
         const res = await fetch('../api/add_evaluation.php', { method: 'POST', body: formData });
         const json = await res.json();
         if (json.success) {
-          window.location.href = `results.php?highlight=${encodeURIComponent(runId)}`;
+          const savedRunId = json.runId || '';
+          window.location.href = `results.php${savedRunId ? `?highlight=${encodeURIComponent(savedRunId)}` : ''}`;
         } else {
           showIndicatorError(json.error || 'Submission failed.');
           if (submitBtn) submitBtn.disabled = false;

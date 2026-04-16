@@ -162,14 +162,24 @@ if (!isset($_SESSION['role'])) {
       document.title = `I-PIPES — ${p.policyName || 'Policy Details'}`;
       document.getElementById('detail-name').textContent = p.policyName || 'Policy';
       document.getElementById('detail-meta').textContent = `${p.targetArea || '—'} · ${formatDate(p.dateCreated)}`;
-      document.getElementById('di-category').textContent = '—';
-      document.getElementById('di-year').textContent = '—';
-      document.getElementById('di-agency').textContent = '—';
-      document.getElementById('di-indicators').textContent = '—';
+      document.getElementById('di-category').textContent = p.category || '—';
+      document.getElementById('di-year').textContent = p.year || '—';
+      document.getElementById('di-agency').textContent = p.agency || '—';
+      document.getElementById('di-indicators').textContent = 'Loading…';
       document.getElementById('detail-status-badge').innerHTML =
         `<span class="badge ${sb.cls}">${escapeHtml(sb.label)}</span>`;
       document.getElementById('run-eval-link').href =
         `evaluation.php?id=${encodeURIComponent(p.policyID)}`;
+
+      try {
+        const res = await fetch(`../api/get_indicators.php?policy_id=${encodeURIComponent(policyId)}`);
+        const json = await res.json();
+        const indicators = json.success && Array.isArray(json.data) ? json.data : [];
+        document.getElementById('di-indicators').textContent = String(indicators.length);
+      } catch (e) {
+        console.error(e);
+        document.getElementById('di-indicators').textContent = '—';
+      }
 
       // ── Fetch evaluations for this policy ────────────────────────────────────────
       let policyEvals = [];
@@ -177,7 +187,14 @@ if (!isset($_SESSION['role'])) {
         const res = await fetch('../api/get_evaluations.php');
         const json = await res.json();
         if (json.success) {
-          policyEvals = json.data.filter((ev) => String(ev.policyID) === String(policyId));
+          policyEvals = json.data
+            .filter((ev) => String(ev.policyID) === String(policyId))
+            .sort((a, b) => {
+              const aTime = Date.parse(a.createdAt || '') || 0;
+              const bTime = Date.parse(b.createdAt || '') || 0;
+              if (bTime !== aTime) return bTime - aTime;
+              return String(b.runId || '').localeCompare(String(a.runId || ''), undefined, { numeric: true });
+            });
         }
       } catch (e) { console.error(e); }
 

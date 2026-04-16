@@ -54,40 +54,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
                 <th>Outcome</th>
               </tr>
             </thead>
-            <tbody id="history-evals-tbody">
-              <tr>
-                <td>EV-2026-012</td>
-                <td>National ICT Policy 2012</td>
-                <td>Admin</td>
-                <td>12 Feb 2026, 10:14</td>
-                <td>Full</td>
-                <td><span class="badge badge-moderate">Completed</span></td>
-              </tr>
-              <tr>
-                <td>EV-2026-011</td>
-                <td>Broadband Expansion Strategy</td>
-                <td>Analyst</td>
-                <td>05 Feb 2026, 15:02</td>
-                <td>Quick</td>
-                <td><span class="badge badge-moderate">Completed</span></td>
-              </tr>
-              <tr>
-                <td>EV-2026-010</td>
-                <td>Digital Inclusion Roadmap</td>
-                <td>Researcher</td>
-                <td>28 Jan 2026, 09:47</td>
-                <td>Full</td>
-                <td><span class="badge badge-high">Reviewed</span></td>
-              </tr>
-              <tr>
-                <td>EV-2026-009</td>
-                <td>Cybersecurity Framework</td>
-                <td>Admin</td>
-                <td>16 Jan 2026, 11:23</td>
-                <td>Sensitivity</td>
-                <td><span class="badge badge-low">Action needed</span></td>
-              </tr>
-            </tbody>
+            <tbody id="history-evals-tbody"></tbody>
           </table>
         </div>
       </div>
@@ -136,6 +103,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </div>
   </main>
 </div>
-<script src="script.js"></script>
+<script src="script.js?v=20260416-admin"></script>
 </body>
 </html>

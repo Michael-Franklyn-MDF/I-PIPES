@@ -60,6 +60,7 @@ if (!isset($_SESSION['role'])) {
           <div>
             <div class="stat-label">Run type</div>
             <div id="latest-run-type" class="stat-value" style="font-size:18px;">—</div>
+            <div id="latest-dimension-count" class="stat-sub">—</div>
           </div>
         </div>
       </div>
@@ -73,29 +74,7 @@ if (!isset($_SESSION['role'])) {
             <thead>
               <tr><th>Dimension</th><th>Score</th><th>Band</th><th>Bar</th></tr>
             </thead>
-            <!-- FIX: unique ID so script can target it separately from the runs table -->
-            <tbody id="results-tbody-dimensions">
-              <tr>
-                <td>Access &amp; Infrastructure</td><td>78.2</td>
-                <td><span class="badge badge-high">High</span></td>
-                <td><span class="score-bar-wrap"><span class="score-bar-fill score-high" style="width:78.2%"></span></span></td>
-              </tr>
-              <tr>
-                <td>Affordability</td><td>63.5</td>
-                <td><span class="badge badge-moderate">Moderate</span></td>
-                <td><span class="score-bar-wrap"><span class="score-bar-fill score-moderate" style="width:63.5%"></span></span></td>
-              </tr>
-              <tr>
-                <td>Digital skills</td><td>58.7</td>
-                <td><span class="badge badge-low">Low</span></td>
-                <td><span class="score-bar-wrap"><span class="score-bar-fill score-low" style="width:58.7%"></span></span></td>
-              </tr>
-              <tr>
-                <td>Policy &amp; regulation</td><td>85.1</td>
-                <td><span class="badge badge-high">High</span></td>
-                <td><span class="score-bar-wrap"><span class="score-bar-fill score-high" style="width:85.1%"></span></span></td>
-              </tr>
-            </tbody>
+            <tbody id="results-tbody-dimensions"></tbody>
           </table>
         </div>
       </div>
@@ -119,6 +98,6 @@ if (!isset($_SESSION['role'])) {
     </div>
   </main>
 </div>
-<script src="script.js"></script>
+<script src="script.js?v=20260416-admin"></script>
 </body>
 </html>

@@ -39,23 +39,23 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-label">Your evaluations</div>
-        <div class="stat-value">8</div>
+        <div class="stat-value">—</div>
         <div class="stat-sub">Runs initiated by you</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Active policies</div>
-        <div class="stat-value">4</div>
+        <div class="stat-value">—</div>
         <div class="stat-sub">Assigned to you</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Avg. score</div>
-        <div class="stat-value">69.8</div>
+        <div class="stat-value">—</div>
         <div class="stat-sub">Across your runs</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Last run</div>
-        <div class="stat-value">71.4</div>
-        <div class="stat-sub">3 days ago</div>
+        <div class="stat-value">—</div>
+        <div class="stat-sub">—</div>
       </div>
     </div>
 
@@ -91,26 +91,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <th>Score</th>
             </tr>
             </thead>
-            <tbody id="recent-tbody">
-            <tr>
-              <td>EV-2026-012</td>
-              <td>National ICT Policy 2012</td>
-              <td>12 Feb 2026</td>
-              <td>71.4</td>
-            </tr>
-            <tr>
-              <td>EV-2026-011</td>
-              <td>Broadband Expansion Strategy</td>
-              <td>05 Feb 2026</td>
-              <td>67.9</td>
-            </tr>
-            <tr>
-              <td>EV-2026-009</td>
-              <td>Digital Inclusion Roadmap</td>
-              <td>28 Jan 2026</td>
-              <td>74.2</td>
-            </tr>
-            </tbody>
+            <tbody id="recent-tbody"></tbody>
           </table>
         </div>
       </div>
@@ -129,6 +110,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   </main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
+<script src="script.js?v=20260416"></script>
 </body>
 </html>

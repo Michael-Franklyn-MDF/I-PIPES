@@ -40,23 +40,23 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-label">Policies available</div>
-        <div class="stat-value">4</div>
+        <div class="stat-value">—</div>
         <div class="stat-sub">Active in system</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Evaluations viewable</div>
-        <div class="stat-value">12</div>
+        <div class="stat-value">—</div>
         <div class="stat-sub">All time</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">System avg. score</div>
-        <div class="stat-value">64.3</div>
+        <div class="stat-value">—</div>
         <div class="stat-sub">Out of 100</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Last evaluation</div>
-        <div class="stat-value">71.4</div>
-        <div class="stat-sub">12 Feb 2026</div>
+        <div class="stat-value">—</div>
+        <div class="stat-sub">—</div>
       </div>
     </div>
 
@@ -93,29 +93,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
                 <th>Band</th>
               </tr>
             </thead>
-            <tbody id="recent-tbody">
-              <tr>
-                <td>EV-2026-012</td>
-                <td>National ICT Policy 2012</td>
-                <td>12 Feb 2026</td>
-                <td>71.4</td>
-                <td><span class="badge badge-moderate">Moderate</span></td>
-              </tr>
-              <tr>
-                <td>EV-2026-011</td>
-                <td>Broadband Expansion Strategy</td>
-                <td>05 Feb 2026</td>
-                <td>67.9</td>
-                <td><span class="badge badge-moderate">Moderate</span></td>
-              </tr>
-              <tr>
-                <td>EV-2026-010</td>
-                <td>Digital Inclusion Roadmap</td>
-                <td>28 Jan 2026</td>
-                <td>74.2</td>
-                <td><span class="badge badge-high">High</span></td>
-              </tr>
-            </tbody>
+            <tbody id="recent-tbody"></tbody>
           </table>
         </div>
       </div>

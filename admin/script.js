@@ -529,19 +529,6 @@
 
       formData.append('indicator_scores', JSON.stringify(indicatorScores));
 
-      // Generate run ID
-      await fetchEvals();
-      let next = 1;
-      if (evals.length) {
-        const nums = evals
-          .map((ev) => parseInt((ev.runId || '').split('-')[2] || '0', 10))
-          .filter((n) => !isNaN(n));
-        if (nums.length) next = Math.max(...nums) + 1;
-      }
-      const year  = new Date().getFullYear();
-      const runId = `EV-${year}-${String(next).padStart(3, '0')}`;
-      formData.append('run_id', runId);
-
       const submitBtn = e.target.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
 
@@ -549,7 +536,8 @@
         const res  = await fetch('../api/add_evaluation.php', { method: 'POST', body: formData });
         const json = await res.json();
         if (json.success) {
-          window.location.href = `results.php?highlight=${encodeURIComponent(runId)}`;
+          const savedRunId = json.runId || '';
+          window.location.href = `results.php${savedRunId ? `?highlight=${encodeURIComponent(savedRunId)}` : ''}`;
         } else {
           if (errEl) errEl.textContent = json.error || 'Submission failed.';
         }
@@ -614,6 +602,7 @@
       if (el('latest-policy-meta'))  el('latest-policy-meta').textContent = '—';
       if (el('latest-score'))        el('latest-score').textContent = '—';
       if (el('latest-run-type'))     el('latest-run-type').textContent = '—';
+      if (el('latest-dimension-count')) el('latest-dimension-count').textContent = '—';
       return;
     }
 
@@ -638,7 +627,11 @@
     if (el('latest-score'))        el('latest-score').textContent        = latest.score         || '—';
     if (el('latest-run-type'))     el('latest-run-type').textContent     = latest.runType       || '—';
 
-    renderBreakdownRows(await fetchBreakdown(latest.runId), breakdownTbody);
+    const breakdownRows = await fetchBreakdown(latest.runId);
+    renderBreakdownRows(breakdownRows, breakdownTbody);
+    if (el('latest-dimension-count')) {
+      el('latest-dimension-count').textContent = breakdownRows.length === 1 ? '1 dimension' : `${breakdownRows.length} dimensions`;
+    }
   }
 
   if (allRunsTbody) {
@@ -697,7 +690,9 @@
 
       // Recent evaluations table on dashboard
       const recentTbody = document.getElementById('recent-tbody');
-      if (recentTbody && evals.length) {
+      if (recentTbody && !evals.length) {
+        recentTbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:32px;">No evaluations yet.</td></tr>`;
+      } else if (recentTbody && evals.length) {
         recentTbody.innerHTML = evals.slice(0, 3).map((ev) => `
           <tr>
             <td>${escapeHtml(ev.runId)}</td>

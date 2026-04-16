@@ -264,6 +264,7 @@
       if (el('latest-score')) el('latest-score').textContent = '—';
       if (el('latest-band')) el('latest-band').textContent = '—';
       if (el('latest-run-type')) el('latest-run-type').textContent = '—';
+      if (el('latest-dimension-count')) el('latest-dimension-count').textContent = '—';
     } else {
       runsTbody.innerHTML = evals.map((ev) => {
         const b = bandFor(ev.score, ev.band);
@@ -288,7 +289,11 @@
       if (el('latest-score')) el('latest-score').textContent = latest.score ?? '—';
       if (el('latest-band')) el('latest-band').textContent = bandFor(latest.score, latest.band).label;
       if (el('latest-run-type')) el('latest-run-type').textContent = latest.runType ?? '—';
-      renderBreakdownRows(await fetchBreakdown(latest.runId));
+      const breakdownRows = await fetchBreakdown(latest.runId);
+      renderBreakdownRows(breakdownRows);
+      if (el('latest-dimension-count')) {
+        el('latest-dimension-count').textContent = breakdownRows.length === 1 ? '1 dimension' : `${breakdownRows.length} dimensions`;
+      }
     }
   }
 

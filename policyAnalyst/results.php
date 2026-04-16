@@ -44,25 +44,25 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
         </div>
         <div style="margin-bottom: 16px;">
           <div style="font-size:14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Policy</div>
-          <div id="latest-policy-name" style="font-size:17px; font-weight:600; margin-top:4px;">National ICT Policy 2012</div>
-          <div id="latest-policy-meta" style="font-size:13px; color: var(--muted); margin-top:2px;">Run on 12 Feb 2026 • By you • Using ITU &amp; NBS datasets</div>
+          <div id="latest-policy-name" style="font-size:17px; font-weight:600; margin-top:4px;">—</div>
+          <div id="latest-policy-meta" style="font-size:13px; color: var(--muted); margin-top:2px;">—</div>
         </div>
 
         <div class="three-col">
           <div>
             <div class="stat-label">Overall score</div>
-            <div id="latest-score" class="stat-value">71.4</div>
+            <div id="latest-score" class="stat-value">—</div>
             <div class="stat-sub">out of 100</div>
           </div>
           <div>
             <div class="stat-label">Confidence level</div>
-            <div id="latest-band" class="stat-value">High</div>
+            <div id="latest-band" class="stat-value">—</div>
             <div class="stat-sub">Model certainty</div>
           </div>
           <div>
             <div class="stat-label">Run type</div>
-            <div id="latest-run-type" class="stat-value">Full</div>
-            <div class="stat-sub">4 dimensions</div>
+            <div id="latest-run-type" class="stat-value">—</div>
+            <div id="latest-dimension-count" class="stat-sub">—</div>
           </div>
         </div>
       </div>
@@ -81,48 +81,7 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
               <th>Score bar</th>
             </tr>
             </thead>
-            <tbody id="results-tbody-dimensions">
-            <tr>
-              <td>Access &amp; Infrastructure</td>
-              <td>78.2</td>
-              <td><span class="badge badge-high">High</span></td>
-              <td>
-                <span class="score-bar-wrap">
-                  <span class="score-bar-fill score-high" style="width:78%;"></span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>Affordability</td>
-              <td>63.5</td>
-              <td><span class="badge badge-moderate">Moderate</span></td>
-              <td>
-                <span class="score-bar-wrap">
-                  <span class="score-bar-fill score-moderate" style="width:64%;"></span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>Digital skills</td>
-              <td>58.7</td>
-              <td><span class="badge badge-low">Low</span></td>
-              <td>
-                <span class="score-bar-wrap">
-                  <span class="score-bar-fill score-low" style="width:59%;"></span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>Policy &amp; regulation</td>
-              <td>85.1</td>
-              <td><span class="badge badge-high">High</span></td>
-              <td>
-                <span class="score-bar-wrap">
-                  <span class="score-bar-fill score-high" style="width:85%;"></span>
-                </span>
-              </td>
-            </tr>
-            </tbody>
+            <tbody id="results-tbody-dimensions"></tbody>
           </table>
         </div>
       </div>
@@ -145,37 +104,12 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
             <th>Band</th>
           </tr>
           </thead>
-          <tbody id="results-tbody-runs">
-          <tr>
-            <td>EV-2026-012</td>
-            <td>National ICT Policy 2012</td>
-            <td>2024 (Annual)</td>
-            <td>Full</td>
-            <td>71.4</td>
-            <td><span class="badge badge-moderate">Moderate</span></td>
-          </tr>
-          <tr>
-            <td>EV-2026-011</td>
-            <td>Broadband Expansion Strategy</td>
-            <td>Q4 2024</td>
-            <td>Quick</td>
-            <td>67.9</td>
-            <td><span class="badge badge-moderate">Moderate</span></td>
-          </tr>
-          <tr>
-            <td>EV-2026-009</td>
-            <td>Digital Inclusion Roadmap</td>
-            <td>2023 (Annual)</td>
-            <td>Full</td>
-            <td>74.2</td>
-            <td><span class="badge badge-high">High</span></td>
-          </tr>
-          </tbody>
+          <tbody id="results-tbody-runs"></tbody>
         </table>
       </div>
     </div>
   </main>
 </div>
-<script src="script.js"></script>
+<script src="script.js?v=20260416"></script>
 </body>
 </html>

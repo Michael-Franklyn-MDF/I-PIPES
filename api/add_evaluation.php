@@ -20,7 +20,7 @@ $runType   = trim($data['run_type']  ?? '');
 $dataset   = trim($data['dataset']   ?? '');
 $notes     = trim($data['notes']     ?? '');
 
-if ($runId === '' || $rawPolicyId === '' || $period === '' || $runType === '' || $dataset === '') {
+if ($rawPolicyId === '' || $period === '' || $runType === '' || $dataset === '') {
     echo json_encode(['success' => false, 'error' => 'Missing required fields']);
     exit;
 }
@@ -38,7 +38,32 @@ if (!is_array($indicatorScores) || count($indicatorScores) < 1) {
     exit;
 }
 
+function generateNextRunId(PDO $pdo): string {
+    $year = date('Y');
+    $stmt = $pdo->query("SELECT runId FROM Evaluations ORDER BY createdAt DESC, runId DESC");
+    $runIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $max = 0;
+    foreach ($runIds as $existingRunId) {
+        if (preg_match('/^EV-' . preg_quote($year, '/') . '-(\d+)$/', (string)$existingRunId, $matches)) {
+            $max = max($max, (int)$matches[1]);
+        }
+    }
+
+    return sprintf('EV-%s-%03d', $year, $max + 1);
+}
+
 try {
+    if ($runId === '') {
+        $runId = generateNextRunId($pdo);
+    } else {
+        $chk = $pdo->prepare("SELECT COUNT(*) FROM Evaluations WHERE runId = ?");
+        $chk->execute([$runId]);
+        if ((int)$chk->fetchColumn() > 0) {
+            $runId = generateNextRunId($pdo);
+        }
+    }
+
     // Fetch the indicators for this policy to get their weights
     $iStmt = $pdo->prepare(
         "SELECT indicatorID, weight FROM Indicators WHERE policyID = ?"
@@ -94,7 +119,7 @@ try {
         $eiStmt->execute([$runId, $s['indicatorID'], $s['score']]);
     }
 
-    echo json_encode(['success' => true, 'score' => $score, 'band' => $band]);
+    echo json_encode(['success' => true, 'runId' => $runId, 'score' => $score, 'band' => $band]);
 
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);

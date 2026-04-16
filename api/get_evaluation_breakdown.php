@@ -1,4 +1,6 @@
 <?php
+// Return the saved indicator-level scores for a specific evaluation run.
+// This powers the latest breakdown cards across admin, analyst, and researcher.
 session_start();
 header('Content-Type: application/json');
 require '../config/db.php';
@@ -21,6 +23,8 @@ try {
         throw new PDOException('Indicators table missing name column');
     }
 
+    // Reuse the same scope model as get_evaluations so analyst pages can only
+    // request the breakdown for their own runs.
     $params = ['runId' => $runId];
     $scopeSql = '';
 

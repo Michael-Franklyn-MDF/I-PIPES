@@ -1,4 +1,6 @@
 (() => {
+  // Shared formatting and ordering helpers used across the analyst dashboard,
+  // results, history, and evaluation flow.
   const escapeHtml = (v) =>
     String(v)
       .replaceAll('&', '&amp;')
@@ -43,6 +45,8 @@
   const path = window.location.pathname;
   const onPage = (name) => path.includes(name);
 
+  // Analyst pages only work with the logged-in analyst's runs, while policies
+  // remain visible from the shared policy list.
   let policies = [];
   let evals = [];
 
@@ -113,6 +117,8 @@
 
   let trendChart = null;
 
+  // Dashboard widgets and recent-run summaries are all derived from the same
+  // filtered evaluation list so the overview stays consistent with results.
   function renderDashboard() {
     const statCards = document.querySelectorAll('.stat-card');
     statCards.forEach((card) => {
@@ -259,6 +265,8 @@
     }).join('');
   }
 
+  // Results page: render the analyst's latest run summary, breakdown, and run
+  // history from the same scoped API response.
   async function renderResultsRuns() {
     const resultsTbody = document.getElementById('results-tbody-runs');
     if (!resultsTbody) return;
@@ -309,6 +317,8 @@
     Promise.all([fetchPolicies(), fetchEvals()]).then(() => renderDashboard());
   }
 
+  // Evaluation page: load policy indicators dynamically and submit a complete
+  // run payload that the backend can score and persist.
   if (onPage('evaluation')) {
     const policySelect = document.getElementById('policy');
     const indicatorWrap = document.getElementById('indicator-inputs-wrap');

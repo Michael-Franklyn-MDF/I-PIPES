@@ -1,4 +1,6 @@
 <?php
+// Return the admin-facing user list, including presentation-friendly role and
+// status labels used by the management screens.
 session_start();
 header('Content-Type: application/json');
 require '../config/db.php';
@@ -10,6 +12,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 try {
+    // Older databases expose the registration timestamp under different names,
+    // so resolve the available column at runtime.
     $cols = $pdo->query("SHOW COLUMNS FROM Users")->fetchAll(PDO::FETCH_COLUMN, 0);
     $colsLower = array_map('strtolower', $cols ?: []);
     $has = fn($c) => in_array(strtolower($c), $colsLower, true);

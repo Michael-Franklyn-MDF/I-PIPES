@@ -1,4 +1,6 @@
 <?php
+// Return evaluation runs with optional user scoping for analyst "my results"
+// views while keeping the payload shape shared across roles.
 session_start();
 header('Content-Type: application/json');
 require '../config/db.php';
@@ -9,6 +11,8 @@ try {
     $colsLower = array_map('strtolower', $cols ?: []);
     $nameCol = in_array('policyname', $colsLower, true) ? 'policyName' : 'name';
 
+    // `scope=mine` narrows the result set to the logged-in user without
+    // changing the fields the frontend expects.
     $scope = strtolower(trim($_GET['scope'] ?? 'all'));
     $params = [];
     $where = '';
@@ -23,6 +27,8 @@ try {
         $params['userID'] = $userID;
     }
 
+    // Order by the stored timestamp first so every dashboard and results page
+    // agrees on what "latest" means.
     $sql = "
         SELECT
             e.*,

@@ -1,4 +1,6 @@
 (() => {
+  // Shared helpers for researcher dashboard and results pages. Researcher views
+  // are read-only, but they still use the same latest-run logic as admin.
   const escapeHtml = (v) =>
     String(v)
       .replaceAll('&', '&amp;')
@@ -49,6 +51,7 @@
   const path = window.location.pathname;
   const onPage = (name) => path.includes(name);
 
+  // Researchers can browse all policies and all evaluation runs.
   let policies = [];
   let evals = [];
 
@@ -119,6 +122,8 @@
 
   let trendChart = null;
 
+  // Dashboard metrics, recent runs, and the trend chart all read from the same
+  // ordered evaluation list so the read-only views stay in sync.
   function renderDashboard() {
     const statCards = document.querySelectorAll('.stat-card');
     statCards.forEach((card) => {
@@ -250,6 +255,8 @@
     Promise.all([fetchPolicies(), fetchEvals()]).then(() => renderDashboard());
   }
 
+  // Results page: populate the latest run summary and indicator breakdown from
+  // the newest system-wide evaluation.
   async function renderResults() {
     const runsTbody = document.getElementById('results-tbody-runs');
     if (!runsTbody) return;

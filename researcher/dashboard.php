@@ -120,6 +120,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
   </main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
+<script src="script.js?v=20260416-researcher"></script>
 </body>
 </html>

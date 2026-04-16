@@ -10,7 +10,18 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 try {
-    $stmt = $pdo->query("SELECT userID, full_name, email, username, role, status FROM Users ORDER BY full_name ASC");
+    $cols = $pdo->query("SHOW COLUMNS FROM Users")->fetchAll(PDO::FETCH_COLUMN, 0);
+    $colsLower = array_map('strtolower', $cols ?: []);
+    $has = fn($c) => in_array(strtolower($c), $colsLower, true);
+
+    $registeredCol = $has('dateregistered') ? 'dateRegistered' : ($has('createdat') ? 'createdAt' : null);
+    $select = "SELECT userID, full_name, email, username, role, status";
+    if ($registeredCol) {
+        $select .= ", {$registeredCol} AS registeredAt";
+    }
+    $select .= " FROM Users ORDER BY full_name ASC";
+
+    $stmt = $pdo->query($select);
     $users = $stmt->fetchAll();
     
     // Format the roles and statuses for the frontend

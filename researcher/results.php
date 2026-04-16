@@ -108,6 +108,6 @@ if (!isset($_SESSION['role'])) { header('Location: ../login/index.html'); exit; 
     </div>
   </main>
   </div>
-  <script src="script.js"></script>
+  <script src="script.js?v=20260416-researcher"></script>
 </body>
 </html>

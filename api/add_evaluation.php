@@ -49,7 +49,6 @@ function generateNextRunId(PDO $pdo): string {
             $max = max($max, (int)$matches[1]);
         }
     }
-
     return sprintf('EV-%s-%03d', $year, $max + 1);
 }
 

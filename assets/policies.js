@@ -31,7 +31,6 @@
       cls = 'badge-inactive';
       label = 'Inactive';
     }
-
     return '<span class="badge ' + cls + '">' + label + '</span>';
   }
 

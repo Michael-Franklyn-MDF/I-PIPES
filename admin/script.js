@@ -343,9 +343,9 @@
 
     if (btn.dataset.action === 'reset-password') {
       document.getElementById('reset-pw-name').textContent  = btn.dataset.name;
-      document.getElementById('reset-pw-index').value       = btn.dataset.id;
+      document.getElementById('reset-pw-index').value = btn.dataset.id;
       document.getElementById('form-reset-password').reset();
-      document.getElementById('reset-pw-msg').textContent   = '';
+      document.getElementById('reset-pw-msg').textContent = '';
       openModal('modal-reset-password');
     }
   });
